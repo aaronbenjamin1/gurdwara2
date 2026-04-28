@@ -17,7 +17,6 @@ export default function Footer() {
 
         <div style={{ color: "rgba(232,213,163,0.3)", fontSize: 12, fontFamily: "var(--font-inter), sans-serif", textAlign: "right" }}>
           <div>© {year} Gurdwara Nanaksar Fresno</div>
-          <div style={{ marginTop: 3 }}>Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh</div>
         </div>
       </div>
     </footer>
