@@ -30,6 +30,8 @@ export default function Hero() {
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
+            filter: "blur(7px)",
+            transform: "scale(1.08)",
           }}
         />
         {/* Dark overlay so text stays readable */}

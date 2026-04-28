@@ -46,7 +46,7 @@ export default function Schedule() {
   return (
     <section
       id="schedule"
-      style={{ padding: "120px 24px", backgroundColor: "#0F2347", position: "relative", overflow: "hidden" }}
+      className="section-pad" style={{ padding: "120px 24px", backgroundColor: "#0F2347", position: "relative", overflow: "hidden" }}
     >
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }} />
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at top left, #152B52 0%, transparent 60%)" }} />

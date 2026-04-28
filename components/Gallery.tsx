@@ -4,14 +4,14 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, Star, Users, Utensils, Zap, Shield, Music, Mic2, Globe } from "lucide-react";
 
 const tiles = [
-  { id: 1, label: "Darbar Sahib", gradient: "linear-gradient(135deg, rgba(120,80,20,0.8), rgba(100,70,10,0.5))", span: { gridColumn: "span 2", gridRow: "span 2" }, Icon: Star },
-  { id: 2, label: "Morning Sangat", gradient: "linear-gradient(135deg, rgba(20,30,90,0.8), rgba(30,40,100,0.5))", span: {}, Icon: Users },
-  { id: 3, label: "Langar Seva", gradient: "linear-gradient(135deg, rgba(100,50,10,0.8), rgba(120,70,20,0.5))", span: {}, Icon: Utensils },
-  { id: 4, label: "Amrit Sanchar", gradient: "linear-gradient(135deg, rgba(10,70,70,0.8), rgba(20,80,80,0.5))", span: { gridRow: "span 2" }, Icon: Zap },
-  { id: 5, label: "Youth Gatka", gradient: "linear-gradient(135deg, rgba(60,20,100,0.8), rgba(70,30,110,0.5))", span: {}, Icon: Shield },
-  { id: 6, label: "Nagar Kirtan", gradient: "linear-gradient(135deg, rgba(100,20,50,0.8), rgba(110,30,60,0.5))", span: { gridColumn: "span 2" }, Icon: Globe },
-  { id: 7, label: "Keertan", gradient: "linear-gradient(135deg, rgba(10,70,40,0.8), rgba(20,80,50,0.5))", span: {}, Icon: Music },
-  { id: 8, label: "Community", gradient: "linear-gradient(135deg, rgba(10,50,90,0.8), rgba(20,60,100,0.5))", span: {}, Icon: Mic2 },
+  { id: 1, label: "Darbar Sahib", gradient: "linear-gradient(135deg, rgba(120,80,20,0.8), rgba(100,70,10,0.5))", span: { gridColumn: "span 2", gridRow: "span 2" }, spanClass: "gallery-span2col gallery-span2row", Icon: Star },
+  { id: 2, label: "Morning Sangat", gradient: "linear-gradient(135deg, rgba(20,30,90,0.8), rgba(30,40,100,0.5))", span: {}, spanClass: "", Icon: Users },
+  { id: 3, label: "Langar Seva", gradient: "linear-gradient(135deg, rgba(100,50,10,0.8), rgba(120,70,20,0.5))", span: {}, spanClass: "", Icon: Utensils },
+  { id: 4, label: "Amrit Sanchar", gradient: "linear-gradient(135deg, rgba(10,70,70,0.8), rgba(20,80,80,0.5))", span: { gridRow: "span 2" }, spanClass: "gallery-span2row", Icon: Zap },
+  { id: 5, label: "Youth Gatka", gradient: "linear-gradient(135deg, rgba(60,20,100,0.8), rgba(70,30,110,0.5))", span: {}, spanClass: "", Icon: Shield },
+  { id: 6, label: "Nagar Kirtan", gradient: "linear-gradient(135deg, rgba(100,20,50,0.8), rgba(110,30,60,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col", Icon: Globe },
+  { id: 7, label: "Keertan", gradient: "linear-gradient(135deg, rgba(10,70,40,0.8), rgba(20,80,50,0.5))", span: {}, spanClass: "", Icon: Music },
+  { id: 8, label: "Community", gradient: "linear-gradient(135deg, rgba(10,50,90,0.8), rgba(20,60,100,0.5))", span: {}, spanClass: "", Icon: Mic2 },
 ];
 
 export default function Gallery() {
@@ -22,7 +22,7 @@ export default function Gallery() {
   return (
     <section
       id="gallery"
-      style={{ padding: "120px 24px", backgroundColor: "#0F2347", position: "relative", overflow: "hidden" }}
+      className="section-pad" style={{ padding: "120px 24px", backgroundColor: "#0F2347", position: "relative", overflow: "hidden" }}
     >
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }} />
 
@@ -46,7 +46,7 @@ export default function Gallery() {
           </p>
         </motion.div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridAutoRows: 160, gap: 14 }}>
+        <div className="gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridAutoRows: 160, gap: 14 }}>
           {tiles.map((tile, i) => {
             const Icon = tile.Icon;
             return (
@@ -56,6 +56,7 @@ export default function Gallery() {
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
                 onClick={() => setSelected(tile)}
+                className={tile.spanClass}
                 style={{
                   background: tile.gradient,
                   border: "1px solid rgba(255,255,255,0.05)",

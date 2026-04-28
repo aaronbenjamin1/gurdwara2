@@ -53,7 +53,7 @@ export default function Events() {
   return (
     <section
       id="events"
-      style={{ padding: "120px 24px", backgroundColor: "#0B1D3A", position: "relative", overflow: "hidden" }}
+      className="section-pad" style={{ padding: "120px 24px", backgroundColor: "#0B1D3A", position: "relative", overflow: "hidden" }}
     >
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }} />
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at bottom left, #152B52 0%, transparent 60%)" }} />
@@ -75,7 +75,7 @@ export default function Events() {
           <div style={{ width: 64, height: 1, background: "linear-gradient(90deg, #D4A520, #FF8C00)", margin: "0 auto" }} />
         </motion.div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(460px, 1fr))", gap: 20 }}>
+        <div className="events-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(460px, 1fr))", gap: 20 }}>
           {events.map((event, i) => (
             <motion.div
               key={event.title}
