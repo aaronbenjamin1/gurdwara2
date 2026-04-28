@@ -75,7 +75,7 @@ export default function Events() {
           <div style={{ width: 64, height: 1, background: "linear-gradient(90deg, #D4A520, #FF8C00)", margin: "0 auto" }} />
         </motion.div>
 
-        <div className="events-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(460px, 1fr))", gap: 20 }}>
+        <div className="events-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(460px, 100%), 1fr))", gap: 20 }}>
           {events.map((event, i) => (
             <motion.div
               key={event.title}
