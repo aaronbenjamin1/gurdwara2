@@ -137,11 +137,11 @@ export default function Schedule() {
                       {item.time}
                     </div>
                   </div>
-                  <div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ color: "#f5f0e8", fontWeight: 600, fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 15, marginBottom: 2 }}>
                       {item.name}
                     </div>
-                    <div style={{ color: "rgba(232,213,163,0.45)", fontSize: 13, fontFamily: "var(--font-inter), sans-serif" }}>
+                    <div style={{ color: "rgba(232,213,163,0.45)", fontSize: 13, fontFamily: "var(--font-inter), sans-serif", wordBreak: "break-word" }}>
                       {item.description}
                     </div>
                   </div>

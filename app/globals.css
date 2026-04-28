@@ -20,6 +20,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -27,6 +29,7 @@ body {
   color: var(--text);
   font-family: 'Georgia', serif;
   overflow-x: hidden;
+  max-width: 100%;
 }
 
 ::selection {

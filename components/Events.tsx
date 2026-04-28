@@ -94,36 +94,32 @@ export default function Events() {
                 background: "linear-gradient(135deg, #152B52, #0F2347)",
                 border: "1px solid rgba(201,168,76,0.15)",
                 borderRadius: 16,
-                padding: 28,
-                minWidth: 0,
-                overflow: "hidden",
+                padding: isMobile ? 18 : 28,
+                width: "100%",
+                boxSizing: "border-box",
               }}
             >
-              <div style={{ display: "flex", gap: 20, minWidth: 0 }}>
-                {/* Date */}
-                <div style={{ flexShrink: 0, textAlign: "center", width: 52 }}>
-                  <div style={{ color: "#D4A520", fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif" }}>
-                    {event.month}
-                  </div>
-                  <div style={{ color: "#f5f0e8", fontSize: 38, fontWeight: 700, fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1 }}>
-                    {event.day}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", alignItems: "flex-start", flexWrap: "wrap", gap: 8, marginBottom: 8 }}>
-                    <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 18, color: "#f5f0e8", lineHeight: 1.3, flex: 1, minWidth: 0 }}>
-                      {event.title}
-                    </h3>
-                    <span style={{ flexShrink: 0, fontSize: 11, padding: "4px 10px", borderRadius: 999, background: event.tagColor, color: event.tagText, fontFamily: "var(--font-inter), sans-serif", fontWeight: 600 }}>
+              {isMobile ? (
+                /* Mobile: fully vertical layout, no side-by-side flex */
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                    <span style={{ color: "#D4A520", fontSize: 32, fontWeight: 700, fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1 }}>
+                      {event.day}
+                    </span>
+                    <span style={{ color: "#D4A520", fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif" }}>
+                      {event.month}
+                    </span>
+                    <span style={{ marginLeft: "auto", fontSize: 11, padding: "4px 10px", borderRadius: 999, background: event.tagColor, color: event.tagText, fontFamily: "var(--font-inter), sans-serif", fontWeight: 600, whiteSpace: "nowrap" }}>
                       {event.tag}
                     </span>
                   </div>
-                  <p style={{ color: "rgba(232,213,163,0.55)", fontSize: 13, lineHeight: 1.7, marginBottom: 14, fontFamily: "var(--font-inter), sans-serif", wordBreak: "break-word" }}>
+                  <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 17, color: "#f5f0e8", lineHeight: 1.3, marginBottom: 8 }}>
+                    {event.title}
+                  </h3>
+                  <p style={{ color: "rgba(232,213,163,0.55)", fontSize: 13, lineHeight: 1.7, marginBottom: 12, fontFamily: "var(--font-inter), sans-serif" }}>
                     {event.description}
                   </p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: 12, color: "rgba(232,213,163,0.45)", fontFamily: "var(--font-inter), sans-serif" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "rgba(232,213,163,0.45)", fontFamily: "var(--font-inter), sans-serif" }}>
                     <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
                       <Clock size={11} color="#D4A520" /> {event.time}
                     </span>
@@ -132,7 +128,40 @@ export default function Events() {
                     </span>
                   </div>
                 </div>
-              </div>
+              ) : (
+                /* Desktop: date side by side with content */
+                <div style={{ display: "flex", gap: 20 }}>
+                  <div style={{ flexShrink: 0, textAlign: "center", width: 52 }}>
+                    <div style={{ color: "#D4A520", fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif" }}>
+                      {event.month}
+                    </div>
+                    <div style={{ color: "#f5f0e8", fontSize: 38, fontWeight: 700, fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1 }}>
+                      {event.day}
+                    </div>
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 8 }}>
+                      <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 18, color: "#f5f0e8", lineHeight: 1.3 }}>
+                        {event.title}
+                      </h3>
+                      <span style={{ flexShrink: 0, fontSize: 11, padding: "4px 10px", borderRadius: 999, background: event.tagColor, color: event.tagText, fontFamily: "var(--font-inter), sans-serif", fontWeight: 600 }}>
+                        {event.tag}
+                      </span>
+                    </div>
+                    <p style={{ color: "rgba(232,213,163,0.55)", fontSize: 13, lineHeight: 1.7, marginBottom: 14, fontFamily: "var(--font-inter), sans-serif" }}>
+                      {event.description}
+                    </p>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: 12, color: "rgba(232,213,163,0.45)", fontFamily: "var(--font-inter), sans-serif" }}>
+                      <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                        <Clock size={11} color="#D4A520" /> {event.time}
+                      </span>
+                      <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                        <MapPin size={11} color="#D4A520" /> {event.location}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
