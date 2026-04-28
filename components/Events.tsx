@@ -1,7 +1,7 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { Calendar, MapPin, Clock, ArrowRight } from "lucide-react";
+import { MapPin, Clock, ArrowRight } from "lucide-react";
 
 const events = [
   {
@@ -49,6 +49,14 @@ const events = [
 export default function Events() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   return (
     <section
@@ -75,7 +83,7 @@ export default function Events() {
           <div style={{ width: 64, height: 1, background: "linear-gradient(90deg, #D4A520, #FF8C00)", margin: "0 auto" }} />
         </motion.div>
 
-        <div className="events-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(460px, 100%), 1fr))", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: 20 }}>
           {events.map((event, i) => (
             <motion.div
               key={event.title}
