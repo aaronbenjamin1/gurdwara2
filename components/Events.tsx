@@ -95,9 +95,11 @@ export default function Events() {
                 border: "1px solid rgba(201,168,76,0.15)",
                 borderRadius: 16,
                 padding: 28,
+                minWidth: 0,
+                overflow: "hidden",
               }}
             >
-              <div style={{ display: "flex", gap: 20 }}>
+              <div style={{ display: "flex", gap: 20, minWidth: 0 }}>
                 {/* Date */}
                 <div style={{ flexShrink: 0, textAlign: "center", width: 52 }}>
                   <div style={{ color: "#D4A520", fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif" }}>
@@ -109,16 +111,16 @@ export default function Events() {
                 </div>
 
                 {/* Content */}
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 8 }}>
-                    <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 18, color: "#f5f0e8", lineHeight: 1.3 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", flexWrap: "wrap", gap: 8, marginBottom: 8 }}>
+                    <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 18, color: "#f5f0e8", lineHeight: 1.3, flex: 1, minWidth: 0 }}>
                       {event.title}
                     </h3>
                     <span style={{ flexShrink: 0, fontSize: 11, padding: "4px 10px", borderRadius: 999, background: event.tagColor, color: event.tagText, fontFamily: "var(--font-inter), sans-serif", fontWeight: 600 }}>
                       {event.tag}
                     </span>
                   </div>
-                  <p style={{ color: "rgba(232,213,163,0.55)", fontSize: 13, lineHeight: 1.7, marginBottom: 14, fontFamily: "var(--font-inter), sans-serif" }}>
+                  <p style={{ color: "rgba(232,213,163,0.55)", fontSize: 13, lineHeight: 1.7, marginBottom: 14, fontFamily: "var(--font-inter), sans-serif", wordBreak: "break-word" }}>
                     {event.description}
                   </p>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: 12, color: "rgba(232,213,163,0.45)", fontFamily: "var(--font-inter), sans-serif" }}>
