@@ -21,51 +21,23 @@ export default function Hero() {
     >
       {/* Background */}
       <div style={{ position: "absolute", inset: 0 }}>
+        {/* Photo */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background:
-              "radial-gradient(ellipse 80% 60% at 50% 40%, #1a2540 0%, #0B1D3A 100%)",
+            backgroundImage: "url('/hero-bg.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
           }}
         />
-        <motion.div
-          animate={{ scale: [1, 1.25, 1], opacity: [0.12, 0.22, 0.12] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            position: "absolute",
-            top: "30%",
-            left: "30%",
-            width: 500,
-            height: 500,
-            background: "#D4A520",
-            borderRadius: "50%",
-            filter: "blur(160px)",
-            transform: "translate(-50%, -50%)",
-          }}
-        />
-        <motion.div
-          animate={{ scale: [1.2, 1, 1.2], opacity: [0.08, 0.15, 0.08] }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-          style={{
-            position: "absolute",
-            bottom: "25%",
-            right: "25%",
-            width: 400,
-            height: 400,
-            background: "#FF8C00",
-            borderRadius: "50%",
-            filter: "blur(160px)",
-          }}
-        />
+        {/* Dark overlay so text stays readable */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            opacity: 0.025,
-            backgroundImage:
-              "linear-gradient(#D4A520 1px, transparent 1px), linear-gradient(90deg, #D4A520 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+            background: "linear-gradient(to bottom, rgba(11,29,58,0.72) 0%, rgba(11,29,58,0.55) 50%, rgba(11,29,58,0.85) 100%)",
           }}
         />
       </div>
