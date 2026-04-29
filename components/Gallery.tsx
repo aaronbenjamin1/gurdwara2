@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, Star, Users, Utensils, Zap, Shield, Music, Mic2, Globe, BookOpen, Heart, Award, Sun, Flame, Camera } from "lucide-react";
+import { X } from "lucide-react";
 
 const tiles = [
   { id: 1, label: "Darbar Sahib", image: "/gallery/gallery-1.jpg", gradient: "linear-gradient(135deg, rgba(120,80,20,0.8), rgba(100,70,10,0.5))", span: { gridColumn: "span 2", gridRow: "span 2" }, spanClass: "gallery-span2col gallery-span2row", Icon: Star },
@@ -54,7 +54,6 @@ export default function Gallery() {
 
         <div className="gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridAutoRows: 160, gap: 14 }}>
           {tiles.map((tile, i) => {
-            const Icon = tile.Icon;
             return (
               <motion.div
                 key={tile.id}
@@ -81,16 +80,6 @@ export default function Gallery() {
                   ...tile.span,
                 }}
               >
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%)", borderRadius: 12 }} />
-                <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-                  <Icon size={20} color="rgba(232,213,163,0.55)" strokeWidth={1.5} />
-                  <span style={{ color: "rgba(232,213,163,0.8)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", fontFamily: "var(--font-inter), sans-serif" }}>
-                    {tile.label}
-                  </span>
-                </div>
-                <div style={{ position: "absolute", top: 10, right: 10, zIndex: 2 }}>
-                  <ZoomIn size={13} color="rgba(201,168,76,0.7)" />
-                </div>
               </motion.div>
             );
           })}
