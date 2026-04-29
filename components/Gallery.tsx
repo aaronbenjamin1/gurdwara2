@@ -4,20 +4,20 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
 const tiles = [
-  { id: 1, label: "Darbar Sahib", image: "/gallery/gallery-1.jpg", gradient: "linear-gradient(135deg, rgba(120,80,20,0.8), rgba(100,70,10,0.5))", span: { gridColumn: "span 2", gridRow: "span 2" }, spanClass: "gallery-span2col gallery-span2row", Icon: Star },
-  { id: 2, label: "Morning Sangat", image: "/gallery/gallery-2.jpg", gradient: "linear-gradient(135deg, rgba(20,30,90,0.8), rgba(30,40,100,0.5))", span: {}, spanClass: "", Icon: Users },
-  { id: 3, label: "Langar Seva", image: "/gallery/gallery-3.jpg", gradient: "linear-gradient(135deg, rgba(100,50,10,0.8), rgba(120,70,20,0.5))", span: {}, spanClass: "", Icon: Utensils },
-  { id: 4, label: "Amrit Sanchar", image: "/gallery/gallery-4.jpg", gradient: "linear-gradient(135deg, rgba(10,70,70,0.8), rgba(20,80,80,0.5))", span: { gridRow: "span 2" }, spanClass: "gallery-span2row", Icon: Zap },
-  { id: 5, label: "Youth Gatka", image: "/gallery/gallery-5.jpg", gradient: "linear-gradient(135deg, rgba(60,20,100,0.8), rgba(70,30,110,0.5))", span: {}, spanClass: "", Icon: Shield },
-  { id: 6, label: "Nagar Kirtan", image: "/gallery/gallery-6.jpg", gradient: "linear-gradient(135deg, rgba(100,20,50,0.8), rgba(110,30,60,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col", Icon: Globe },
-  { id: 7, label: "Keertan", image: "/gallery/gallery-7.jpg", gradient: "linear-gradient(135deg, rgba(10,70,40,0.8), rgba(20,80,50,0.5))", span: {}, spanClass: "", Icon: Music },
-  { id: 8, label: "Community", image: "/gallery/gallery-8.jpg", gradient: "linear-gradient(135deg, rgba(10,50,90,0.8), rgba(20,60,100,0.5))", span: {}, spanClass: "", Icon: Mic2 },
-  { id: 9, label: "Akhand Path", image: "/gallery/gallery-9.jpg", gradient: "linear-gradient(135deg, rgba(70,20,90,0.8), rgba(80,30,100,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col", Icon: BookOpen },
-  { id: 10, label: "Ardas", image: "/gallery/gallery-10.jpg", gradient: "linear-gradient(135deg, rgba(20,60,30,0.8), rgba(30,70,40,0.5))", span: {}, spanClass: "", Icon: Heart },
-  { id: 11, label: "Gurpurab", image: "/gallery/gallery-11.jpg", gradient: "linear-gradient(135deg, rgba(90,60,10,0.8), rgba(100,70,20,0.5))", span: { gridRow: "span 2" }, spanClass: "gallery-span2row", Icon: Award },
-  { id: 12, label: "Simran", image: "/gallery/gallery-12.jpg", gradient: "linear-gradient(135deg, rgba(10,50,70,0.8), rgba(20,60,80,0.5))", span: {}, spanClass: "", Icon: Sun },
-  { id: 13, label: "Celebrations", image: "/gallery/gallery-13.jpg", gradient: "linear-gradient(135deg, rgba(80,30,10,0.8), rgba(90,40,20,0.5))", span: {}, spanClass: "", Icon: Flame },
-  { id: 14, label: "Memories", image: "/gallery/gallery-14.jpg", gradient: "linear-gradient(135deg, rgba(30,20,70,0.8), rgba(40,30,80,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col", Icon: Camera },
+  { id: 1, label: "Darbar Sahib", image: "/gallery/gallery-1.jpg", gradient: "linear-gradient(135deg, rgba(120,80,20,0.8), rgba(100,70,10,0.5))", span: { gridColumn: "span 2", gridRow: "span 2" }, spanClass: "gallery-span2col gallery-span2row" },
+  { id: 2, label: "Morning Sangat", image: "/gallery/gallery-2.jpg", gradient: "linear-gradient(135deg, rgba(20,30,90,0.8), rgba(30,40,100,0.5))", span: {}, spanClass: "" },
+  { id: 3, label: "Langar Seva", image: "/gallery/gallery-3.jpg", gradient: "linear-gradient(135deg, rgba(100,50,10,0.8), rgba(120,70,20,0.5))", span: {}, spanClass: "" },
+  { id: 4, label: "Amrit Sanchar", image: "/gallery/gallery-4.jpg", gradient: "linear-gradient(135deg, rgba(10,70,70,0.8), rgba(20,80,80,0.5))", span: { gridRow: "span 2" }, spanClass: "gallery-span2row" },
+  { id: 5, label: "Youth Gatka", image: "/gallery/gallery-5.jpg", gradient: "linear-gradient(135deg, rgba(60,20,100,0.8), rgba(70,30,110,0.5))", span: {}, spanClass: "" },
+  { id: 6, label: "Nagar Kirtan", image: "/gallery/gallery-6.jpg", gradient: "linear-gradient(135deg, rgba(100,20,50,0.8), rgba(110,30,60,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col" },
+  { id: 7, label: "Keertan", image: "/gallery/gallery-7.jpg", gradient: "linear-gradient(135deg, rgba(10,70,40,0.8), rgba(20,80,50,0.5))", span: {}, spanClass: "" },
+  { id: 8, label: "Community", image: "/gallery/gallery-8.jpg", gradient: "linear-gradient(135deg, rgba(10,50,90,0.8), rgba(20,60,100,0.5))", span: {}, spanClass: "" },
+  { id: 9, label: "Akhand Path", image: "/gallery/gallery-9.jpg", gradient: "linear-gradient(135deg, rgba(70,20,90,0.8), rgba(80,30,100,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col" },
+  { id: 10, label: "Ardas", image: "/gallery/gallery-10.jpg", gradient: "linear-gradient(135deg, rgba(20,60,30,0.8), rgba(30,70,40,0.5))", span: {}, spanClass: "" },
+  { id: 11, label: "Gurpurab", image: "/gallery/gallery-11.jpg", gradient: "linear-gradient(135deg, rgba(90,60,10,0.8), rgba(100,70,20,0.5))", span: { gridRow: "span 2" }, spanClass: "gallery-span2row" },
+  { id: 12, label: "Simran", image: "/gallery/gallery-12.jpg", gradient: "linear-gradient(135deg, rgba(10,50,70,0.8), rgba(20,60,80,0.5))", span: {}, spanClass: "" },
+  { id: 13, label: "Celebrations", image: "/gallery/gallery-13.jpg", gradient: "linear-gradient(135deg, rgba(80,30,10,0.8), rgba(90,40,20,0.5))", span: {}, spanClass: "" },
+  { id: 14, label: "Memories", image: "/gallery/gallery-14.jpg", gradient: "linear-gradient(135deg, rgba(30,20,70,0.8), rgba(40,30,80,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col" },
 ];
 
 export default function Gallery() {
