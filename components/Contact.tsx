@@ -49,7 +49,7 @@ export default function Contact() {
           >
             <div style={{ display: "flex", flexDirection: "column", gap: 22, marginBottom: 36 }}>
               {[
-                { Icon: MapPin, label: "Address", value: "Fresno, California\n(Address to be confirmed)" },
+                { Icon: MapPin, label: "Address", value: "3060 S Cherry Ave\nFresno, CA 93706" },
                 { Icon: Phone, label: "Phone", value: "(XXX) XXX-XXXX" },
                 { Icon: Mail, label: "Email", value: "info@gurdwaranakasarfresno.org" },
               ].map(({ Icon, label, value }) => (
@@ -89,12 +89,17 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Map placeholder */}
-            <div style={{ background: "linear-gradient(135deg, #152B52, #0F2347)", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 12, height: 180, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              <MapPin color="rgba(201,168,76,0.3)" size={24} />
-              <p style={{ color: "rgba(232,213,163,0.25)", fontSize: 12, fontFamily: "var(--font-inter), sans-serif" }}>
-                Map will be embedded here
-              </p>
+            {/* Map */}
+            <div style={{ borderRadius: 12, overflow: "hidden", border: "1px solid rgba(201,168,76,0.15)", height: 180 }}>
+              <iframe
+                src="https://maps.google.com/maps?q=3060+S+Cherry+Ave,+Fresno,+CA+93706&output=embed"
+                width="100%"
+                height="180"
+                style={{ border: "none", display: "block", filter: "invert(90%) hue-rotate(180deg)" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </motion.div>
 
