@@ -80,6 +80,9 @@ export default function Navbar() {
             <div style={{ color: "rgba(240,208,96,0.55)", fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif" }}>
               Fresno, California
             </div>
+            <div style={{ color: "rgba(240,208,96,0.35)", fontSize: 9, fontFamily: "var(--font-inter), sans-serif", marginTop: 2 }}>
+              3060 S Cherry Ave, Fresno, CA 93706
+            </div>
           </button>
 
           {/* Desktop links */}
