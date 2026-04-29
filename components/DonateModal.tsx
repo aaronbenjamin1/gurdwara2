@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle } from "lucide-react";
 
@@ -109,6 +110,9 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
     }
   };
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const inputStyle: React.CSSProperties = {
     width: "100%",
     background: "#0B1D3A",
@@ -122,14 +126,16 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
     boxSizing: "border-box",
   };
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
       style={{
-        position: "fixed", inset: 0, zIndex: 100,
+        position: "fixed", inset: 0, zIndex: 9999,
         background: "rgba(0,0,0,0.9)",
         display: "flex", alignItems: "center", justifyContent: "center",
         padding: 24,
@@ -288,6 +294,7 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
           )}
         </AnimatePresence>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }
