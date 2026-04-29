@@ -13,9 +13,9 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
+      <Events />
       <About />
       <Schedule />
-      <Events />
       <Gallery />
       <Donate />
       <Contact />

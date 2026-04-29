@@ -40,20 +40,3 @@ body {
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg-1); }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
-
-/* ── Mobile responsive ───────────────────────────────────────── */
-@media (max-width: 768px) {
-  .section-pad  { padding: 72px 20px !important; }
-  .grid-2col    { grid-template-columns: 1fr !important; }
-  .grid-4col    { grid-template-columns: repeat(2, 1fr) !important; }
-  .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; grid-auto-rows: 130px !important; }
-  .gallery-span2col { grid-column: span 1 !important; }
-  .gallery-span2row { grid-row: span 1 !important; }
-  .events-grid  { grid-template-columns: 1fr !important; }
-  .nav-desktop  { display: none !important; }
-  .nav-mobile   { display: block !important; }
-  .hero-pad     { padding-top: 100px !important; }
-  .donate-cta   { padding: 36px 24px !important; }
-  .schedule-row { flex-wrap: wrap; gap: 8px !important; }
-  .schedule-time { width: auto !important; }
-}

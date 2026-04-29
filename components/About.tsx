@@ -38,7 +38,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="section-pad" style={{ padding: "120px 24px", backgroundColor: "#0B1D3A", position: "relative", overflow: "hidden" }}
+      style={{ padding: "120px 24px", backgroundColor: "#0B1D3A", position: "relative", overflow: "hidden" }}
     >
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at bottom right, #152B52 0%, transparent 60%)" }} />
 
@@ -64,7 +64,7 @@ export default function About() {
         </motion.div>
 
         {/* Two column layout */}
-        <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 64, alignItems: "center", marginBottom: 80 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 64, alignItems: "center", marginBottom: 80 }}>
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -109,7 +109,7 @@ export default function About() {
         </div>
 
         {/* Stats */}
-        <div className="grid-4col" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
           {stats.map(({ icon: Icon, label, value, suffix }, i) => (
             <motion.div
               key={label}

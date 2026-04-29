@@ -1,7 +1,7 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
-import { MapPin, Clock, ArrowRight } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MapPin, Clock, ChevronLeft, ChevronRight } from "lucide-react";
 
 const events = [
   {
@@ -13,6 +13,7 @@ const events = [
     tag: "Annual Festival",
     tagColor: "rgba(255,153,51,0.15)",
     tagText: "#FF8C00",
+    accentRgb: "255,140,0",
   },
   {
     month: "JUN", day: "07",
@@ -23,6 +24,7 @@ const events = [
     tag: "Gurpurab",
     tagColor: "rgba(201,168,76,0.15)",
     tagText: "#D4A520",
+    accentRgb: "212,165,32",
   },
   {
     month: "JUL", day: "19",
@@ -33,6 +35,7 @@ const events = [
     tag: "Youth Event",
     tagColor: "rgba(96,165,250,0.15)",
     tagText: "#93c5fd",
+    accentRgb: "147,197,253",
   },
   {
     month: "AUG", day: "24",
@@ -43,139 +46,201 @@ const events = [
     tag: "Seva",
     tagColor: "rgba(52,211,153,0.15)",
     tagText: "#6ee7b7",
+    accentRgb: "110,231,183",
   },
 ];
 
 export default function Events() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [isMobile, setIsMobile] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [paused, setPaused] = useState(false);
+
+  const go = useCallback((index: number, dir: number) => {
+    setDirection(dir);
+    setCurrent(index);
+  }, []);
+
+  const prev = () => go((current - 1 + events.length) % events.length, -1);
+  const next = useCallback(() => go((current + 1) % events.length, 1), [current, go]);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+    if (paused) return;
+    const t = setInterval(next, 5000);
+    return () => clearInterval(t);
+  }, [paused, next]);
+
+  const event = events[current];
+
+  const variants = {
+    enter: (d: number) => ({ x: d > 0 ? 80 : -80, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d: number) => ({ x: d > 0 ? -80 : 80, opacity: 0 }),
+  };
 
   return (
     <section
       id="events"
-      className="section-pad" style={{ padding: "120px 24px", backgroundColor: "#0B1D3A", position: "relative", overflow: "hidden" }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      style={{
+        backgroundColor: "#071525",
+        position: "relative",
+        overflow: "hidden",
+        borderTop: "1px solid rgba(201,168,76,0.15)",
+        borderBottom: "1px solid rgba(201,168,76,0.15)",
+      }}
     >
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }} />
-      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at bottom left, #152B52 0%, transparent 60%)" }} />
+      <div style={{
+        position: "absolute", inset: 0,
+        background: `radial-gradient(ellipse at 70% 50%, rgba(${event.accentRgb},0.06) 0%, transparent 65%)`,
+        transition: "background 0.8s ease",
+        pointerEvents: "none",
+      }} />
 
-      <div ref={ref} style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 10 }}>
+      <div style={{
+        maxWidth: 1200, margin: "0 auto",
+        display: "flex", alignItems: "stretch",
+        minHeight: 360, position: "relative", zIndex: 1,
+      }}>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: "center", marginBottom: 56 }}
-        >
-          <p style={{ color: "#D4A520", fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif", marginBottom: 12 }}>
-            What&apos;s Coming Up
-          </p>
-          <h2 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "#f5f0e8", marginBottom: 20, lineHeight: 1.2 }}>
+        {/* Left date column */}
+        <div style={{
+          flexShrink: 0, width: 180,
+          borderRight: "1px solid rgba(201,168,76,0.1)",
+          display: "flex", flexDirection: "column", justifyContent: "center",
+          padding: "48px 28px",
+        }}>
+          <p style={{
+            color: "#D4A520", fontSize: 10, letterSpacing: "0.35em",
+            textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif",
+            marginBottom: 20,
+          }}>
             Upcoming Events
-          </h2>
-          <div style={{ width: 64, height: 1, background: "linear-gradient(90deg, #D4A520, #FF8C00)", margin: "0 auto" }} />
-        </motion.div>
+          </p>
+          <div style={{ width: 32, height: 1, background: "rgba(201,168,76,0.3)", marginBottom: 20 }} />
 
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: 20 }}>
-          {events.map((event, i) => (
+          <AnimatePresence mode="wait" custom={direction}>
             <motion.div
-              key={event.title}
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              style={{
-                background: "linear-gradient(135deg, #152B52, #0F2347)",
-                border: "1px solid rgba(201,168,76,0.15)",
-                borderRadius: 16,
-                padding: isMobile ? 18 : 28,
-                width: "100%",
-                boxSizing: "border-box",
-              }}
+              key={current + "-date"}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.35, ease: "easeInOut" }}
             >
-              {isMobile ? (
-                /* Mobile: fully vertical layout, no side-by-side flex */
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                    <span style={{ color: "#D4A520", fontSize: 32, fontWeight: 700, fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1 }}>
-                      {event.day}
-                    </span>
-                    <span style={{ color: "#D4A520", fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif" }}>
-                      {event.month}
-                    </span>
-                    <span style={{ marginLeft: "auto", fontSize: 11, padding: "4px 10px", borderRadius: 999, background: event.tagColor, color: event.tagText, fontFamily: "var(--font-inter), sans-serif", fontWeight: 600, whiteSpace: "nowrap" }}>
-                      {event.tag}
-                    </span>
-                  </div>
-                  <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 17, color: "#f5f0e8", lineHeight: 1.3, marginBottom: 8 }}>
-                    {event.title}
-                  </h3>
-                  <p style={{ color: "rgba(232,213,163,0.55)", fontSize: 13, lineHeight: 1.7, marginBottom: 12, fontFamily: "var(--font-inter), sans-serif" }}>
-                    {event.description}
-                  </p>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "rgba(232,213,163,0.45)", fontFamily: "var(--font-inter), sans-serif" }}>
-                    <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                      <Clock size={11} color="#D4A520" /> {event.time}
-                    </span>
-                    <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                      <MapPin size={11} color="#D4A520" /> {event.location}
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                /* Desktop: date side by side with content */
-                <div style={{ display: "flex", gap: 20 }}>
-                  <div style={{ flexShrink: 0, textAlign: "center", width: 52 }}>
-                    <div style={{ color: "#D4A520", fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif" }}>
-                      {event.month}
-                    </div>
-                    <div style={{ color: "#f5f0e8", fontSize: 38, fontWeight: 700, fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1 }}>
-                      {event.day}
-                    </div>
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 8 }}>
-                      <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 18, color: "#f5f0e8", lineHeight: 1.3 }}>
-                        {event.title}
-                      </h3>
-                      <span style={{ flexShrink: 0, fontSize: 11, padding: "4px 10px", borderRadius: 999, background: event.tagColor, color: event.tagText, fontFamily: "var(--font-inter), sans-serif", fontWeight: 600 }}>
-                        {event.tag}
-                      </span>
-                    </div>
-                    <p style={{ color: "rgba(232,213,163,0.55)", fontSize: 13, lineHeight: 1.7, marginBottom: 14, fontFamily: "var(--font-inter), sans-serif" }}>
-                      {event.description}
-                    </p>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: 12, color: "rgba(232,213,163,0.45)", fontFamily: "var(--font-inter), sans-serif" }}>
-                      <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                        <Clock size={11} color="#D4A520" /> {event.time}
-                      </span>
-                      <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                        <MapPin size={11} color="#D4A520" /> {event.location}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <div style={{
+                color: event.tagText, fontSize: 11, fontWeight: 700,
+                letterSpacing: "0.2em", textTransform: "uppercase",
+                fontFamily: "var(--font-inter), sans-serif", marginBottom: 4,
+              }}>
+                {event.month}
+              </div>
+              <div style={{
+                color: "#f5f0e8", fontSize: 64, fontWeight: 700,
+                fontFamily: "var(--font-playfair), Georgia, serif", lineHeight: 1,
+              }}>
+                {event.day}
+              </div>
             </motion.div>
-          ))}
+          </AnimatePresence>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.7 }}
-          style={{ textAlign: "center", marginTop: 36 }}
-        >
-          <button style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "#D4A520", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600, fontFamily: "var(--font-inter), sans-serif", background: "none", border: "none", cursor: "pointer" }}>
-            View All Events <ArrowRight size={14} />
-          </button>
-        </motion.div>
+        {/* Right content */}
+        <div style={{
+          flex: 1, display: "flex", flexDirection: "column",
+          justifyContent: "center", padding: "48px 44px",
+          overflow: "hidden",
+        }}>
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={current}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <span style={{
+                display: "inline-block",
+                fontSize: 11, padding: "4px 12px", borderRadius: 999,
+                background: event.tagColor, color: event.tagText,
+                fontFamily: "var(--font-inter), sans-serif", fontWeight: 600,
+                marginBottom: 14,
+              }}>
+                {event.tag}
+              </span>
+
+              <h2 style={{
+                fontFamily: "var(--font-playfair), Georgia, serif",
+                fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
+                color: "#f5f0e8", lineHeight: 1.2, marginBottom: 16,
+              }}>
+                {event.title}
+              </h2>
+
+              <p style={{
+                color: "rgba(232,213,163,0.55)", fontSize: 15, lineHeight: 1.75,
+                maxWidth: 580, marginBottom: 24,
+                fontFamily: "var(--font-inter), sans-serif",
+              }}>
+                {event.description}
+              </p>
+
+              <div style={{
+                display: "flex", flexWrap: "wrap", gap: 20,
+                fontSize: 13, color: "rgba(232,213,163,0.5)",
+                fontFamily: "var(--font-inter), sans-serif",
+              }}>
+                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <Clock size={13} color="#D4A520" /> {event.time}
+                </span>
+                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <MapPin size={13} color="#D4A520" /> {event.location}
+                </span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Controls */}
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 36 }}>
+            <div style={{ display: "flex", gap: 8 }}>
+              {events.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => go(i, i > current ? 1 : -1)}
+                  style={{
+                    width: i === current ? 24 : 8, height: 8, borderRadius: 4,
+                    background: i === current ? "#D4A520" : "rgba(201,168,76,0.25)",
+                    border: "none", cursor: "pointer",
+                    transition: "all 0.3s ease", padding: 0,
+                  }}
+                />
+              ))}
+            </div>
+
+            <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
+              {[{ fn: prev, icon: <ChevronLeft size={18} /> }, { fn: next, icon: <ChevronRight size={18} /> }].map((btn, i) => (
+                <button
+                  key={i}
+                  onClick={btn.fn}
+                  style={{
+                    width: 40, height: 40, borderRadius: "50%",
+                    background: "rgba(201,168,76,0.08)",
+                    border: "1px solid rgba(201,168,76,0.2)",
+                    color: "#D4A520", display: "flex", alignItems: "center",
+                    justifyContent: "center", cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(201,168,76,0.18)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(201,168,76,0.08)")}
+                >
+                  {btn.icon}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

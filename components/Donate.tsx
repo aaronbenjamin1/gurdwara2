@@ -17,7 +17,7 @@ export default function Donate() {
   return (
     <section
       id="donate"
-      className="section-pad" style={{ padding: "120px 24px", backgroundColor: "#0B1D3A", position: "relative", overflow: "hidden" }}
+      style={{ padding: "120px 24px", backgroundColor: "#0B1D3A", position: "relative", overflow: "hidden" }}
     >
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }} />
       <motion.div
@@ -47,7 +47,7 @@ export default function Donate() {
         </motion.div>
 
         {/* Cause cards */}
-        <div className="grid-4col" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18, marginBottom: 48 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18, marginBottom: 48 }}>
           {causes.map(({ icon: Icon, title, description }, i) => (
             <motion.div
               key={title}
