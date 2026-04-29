@@ -14,10 +14,6 @@ const tiles = [
   { id: 8, label: "Community", image: "/gallery/gallery-8.jpg", gradient: "linear-gradient(135deg, rgba(10,50,90,0.8), rgba(20,60,100,0.5))", span: {}, spanClass: "" },
   { id: 9, label: "Akhand Path", image: "/gallery/gallery-9.jpg", gradient: "linear-gradient(135deg, rgba(70,20,90,0.8), rgba(80,30,100,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col" },
   { id: 10, label: "Ardas", image: "/gallery/gallery-10.jpg", gradient: "linear-gradient(135deg, rgba(20,60,30,0.8), rgba(30,70,40,0.5))", span: {}, spanClass: "" },
-  { id: 11, label: "Gurpurab", image: "/gallery/gallery-11.jpg", gradient: "linear-gradient(135deg, rgba(90,60,10,0.8), rgba(100,70,20,0.5))", span: { gridRow: "span 2" }, spanClass: "gallery-span2row" },
-  { id: 12, label: "Simran", image: "/gallery/gallery-12.jpg", gradient: "linear-gradient(135deg, rgba(10,50,70,0.8), rgba(20,60,80,0.5))", span: {}, spanClass: "" },
-  { id: 13, label: "Celebrations", image: "/gallery/gallery-13.jpg", gradient: "linear-gradient(135deg, rgba(80,30,10,0.8), rgba(90,40,20,0.5))", span: {}, spanClass: "" },
-  { id: 14, label: "Memories", image: "/gallery/gallery-14.jpg", gradient: "linear-gradient(135deg, rgba(30,20,70,0.8), rgba(40,30,80,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col" },
 ];
 
 export default function Gallery() {
@@ -116,12 +112,7 @@ export default function Gallery() {
                 src={selected.image}
                 alt={selected.label}
                 style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
               />
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)", pointerEvents: "none" }} />
-              <span style={{ position: "absolute", bottom: 18, left: 20, color: "rgba(232,213,163,0.9)", fontSize: 13, textTransform: "uppercase", letterSpacing: "0.25em", fontFamily: "var(--font-inter), sans-serif" }}>
-                {selected.label}
-              </span>
               <button onClick={() => setSelected(null)} style={{ position: "absolute", top: 14, right: 14, background: "rgba(0,0,0,0.45)", border: "none", borderRadius: "50%", width: 32, height: 32, cursor: "pointer", color: "rgba(232,213,163,0.8)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <X size={16} />
               </button>
