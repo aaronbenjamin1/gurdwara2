@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { posts } from "@/lib/posts";
 
-const BASE = "https://gurdwaranankasarfresno.org";
+const BASE = "https://gurdwarananaksarfresno.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const postEntries = posts.map((post) => ({

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: "Blog | Gurdwara Nanaksar Fresno",
     description:
       "Articles about Sikhism, community, and events from Gurdwara Nanaksar Fresno.",
-    url: "https://gurdwaranankasarfresno.org/blog",
+    url: "https://gurdwarananaksarfresno.com/blog",
     siteName: "Gurdwara Nanaksar Fresno",
     locale: "en_US",
     type: "website",

@@ -25,7 +25,7 @@ export async function generateMetadata({
     openGraph: {
       title: post.title,
       description: post.description,
-      url: `https://gurdwaranankasarfresno.org/blog/${post.slug}`,
+      url: `https://gurdwarananaksarfresno.com/blog/${post.slug}`,
       siteName: "Gurdwara Nanaksar Fresno",
       locale: "en_US",
       type: "article",
@@ -37,7 +37,7 @@ export async function generateMetadata({
       description: post.description,
     },
     alternates: {
-      canonical: `https://gurdwaranankasarfresno.org/blog/${post.slug}`,
+      canonical: `https://gurdwarananaksarfresno.com/blog/${post.slug}`,
     },
   };
 }
@@ -60,16 +60,16 @@ export default async function BlogPost({
     author: {
       "@type": "Organization",
       name: "Gurdwara Nanaksar Fresno",
-      url: "https://gurdwaranankasarfresno.org",
+      url: "https://gurdwarananaksarfresno.com",
     },
     publisher: {
       "@type": "Organization",
       name: "Gurdwara Nanaksar Fresno",
-      url: "https://gurdwaranankasarfresno.org",
+      url: "https://gurdwarananaksarfresno.com",
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://gurdwaranankasarfresno.org/blog/${post.slug}`,
+      "@id": `https://gurdwarananaksarfresno.com/blog/${post.slug}`,
     },
   };
 

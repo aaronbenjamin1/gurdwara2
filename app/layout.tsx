@@ -13,8 +13,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://gurdwarananaksarfresno.com"),
   title: "Gurdwara Nanaksar Fresno",
   description: "A sacred place of worship and community for Sikhs in the Fresno, California area. Est. 1993.",
+  openGraph: {
+    siteName: "Gurdwara Nanaksar Fresno",
+    locale: "en_US",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
