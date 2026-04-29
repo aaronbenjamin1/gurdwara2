@@ -183,7 +183,7 @@ export default function Hero() {
           style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
         >
           <button
-            onClick={() => scroll("#schedule")}
+            onClick={() => scroll("#donate")}
             style={{
               background: "#D4A520",
               color: "#0B1D3A",
@@ -202,7 +202,7 @@ export default function Hero() {
             onMouseEnter={(e) => (e.currentTarget.style.background = "#F0D060")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "#D4A520")}
           >
-            View Schedule
+            Donate
           </button>
           <button
             onClick={() => scroll("#about")}

@@ -54,6 +54,14 @@ export default function Events() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const go = useCallback((index: number, dir: number) => {
     setDirection(dir);
@@ -99,16 +107,19 @@ export default function Events() {
 
       <div style={{
         maxWidth: 1200, margin: "0 auto",
-        display: "flex", alignItems: "stretch",
-        minHeight: 360, position: "relative", zIndex: 1,
+        display: "flex", alignItems: "stretch", flexDirection: isMobile ? "column" : "row",
+        minHeight: isMobile ? "auto" : 360, position: "relative", zIndex: 1,
       }}>
 
         {/* Left date column */}
         <div style={{
-          flexShrink: 0, width: 180,
-          borderRight: "1px solid rgba(201,168,76,0.1)",
-          display: "flex", flexDirection: "column", justifyContent: "center",
-          padding: "48px 28px",
+          flexShrink: 0, width: isMobile ? "auto" : 180,
+          borderRight: isMobile ? "none" : "1px solid rgba(201,168,76,0.1)",
+          borderBottom: isMobile ? "1px solid rgba(201,168,76,0.1)" : "none",
+          display: "flex", flexDirection: isMobile ? "row" : "column",
+          alignItems: isMobile ? "center" : "flex-start",
+          justifyContent: isMobile ? "space-between" : "center",
+          padding: isMobile ? "24px 20px" : "48px 28px",
         }}>
           <p style={{
             color: "#D4A520", fontSize: 10, letterSpacing: "0.35em",
@@ -149,8 +160,8 @@ export default function Events() {
         {/* Right content */}
         <div style={{
           flex: 1, display: "flex", flexDirection: "column",
-          justifyContent: "center", padding: "48px 44px",
-          overflow: "hidden",
+          justifyContent: "center", padding: isMobile ? "28px 20px" : "48px 44px",
+          overflow: "hidden", minWidth: 0,
         }}>
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div

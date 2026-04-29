@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, Star, Users, Utensils, Zap, Shield, Music, Mic2, Globe } from "lucide-react";
+import { X, ZoomIn, Star, Users, Utensils, Zap, Shield, Music, Mic2, Globe, BookOpen, Heart, Award, Sun, Flame, Camera } from "lucide-react";
 
 const tiles = [
   { id: 1, label: "Darbar Sahib", gradient: "linear-gradient(135deg, rgba(120,80,20,0.8), rgba(100,70,10,0.5))", span: { gridColumn: "span 2", gridRow: "span 2" }, spanClass: "gallery-span2col gallery-span2row", Icon: Star },
@@ -12,6 +12,12 @@ const tiles = [
   { id: 6, label: "Nagar Kirtan", gradient: "linear-gradient(135deg, rgba(100,20,50,0.8), rgba(110,30,60,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col", Icon: Globe },
   { id: 7, label: "Keertan", gradient: "linear-gradient(135deg, rgba(10,70,40,0.8), rgba(20,80,50,0.5))", span: {}, spanClass: "", Icon: Music },
   { id: 8, label: "Community", gradient: "linear-gradient(135deg, rgba(10,50,90,0.8), rgba(20,60,100,0.5))", span: {}, spanClass: "", Icon: Mic2 },
+  { id: 9, label: "Akhand Path", gradient: "linear-gradient(135deg, rgba(70,20,90,0.8), rgba(80,30,100,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col", Icon: BookOpen },
+  { id: 10, label: "Ardas", gradient: "linear-gradient(135deg, rgba(20,60,30,0.8), rgba(30,70,40,0.5))", span: {}, spanClass: "", Icon: Heart },
+  { id: 11, label: "Gurpurab", gradient: "linear-gradient(135deg, rgba(90,60,10,0.8), rgba(100,70,20,0.5))", span: { gridRow: "span 2" }, spanClass: "gallery-span2row", Icon: Award },
+  { id: 12, label: "Simran", gradient: "linear-gradient(135deg, rgba(10,50,70,0.8), rgba(20,60,80,0.5))", span: {}, spanClass: "", Icon: Sun },
+  { id: 13, label: "Celebrations", gradient: "linear-gradient(135deg, rgba(80,30,10,0.8), rgba(90,40,20,0.5))", span: {}, spanClass: "", Icon: Flame },
+  { id: 14, label: "Memories", gradient: "linear-gradient(135deg, rgba(30,20,70,0.8), rgba(40,30,80,0.5))", span: { gridColumn: "span 2" }, spanClass: "gallery-span2col", Icon: Camera },
 ];
 
 export default function Gallery() {
