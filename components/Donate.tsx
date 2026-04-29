@@ -1,10 +1,10 @@
 "use client";
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Heart, Utensils, BookOpen, Building2 } from "lucide-react";
+import DonateModal from "./DonateModal";
 
-// Replace these with your Square checkout links from Square Dashboard → Online → Checkout Links
-const SQUARE_DONATE_URL = "https://checkout.square.site/REPLACE_WITH_YOUR_LINK";
+// For monthly giving, replace with your Square subscription/checkout link
 const SQUARE_MONTHLY_URL = "https://checkout.square.site/REPLACE_WITH_YOUR_MONTHLY_LINK";
 
 const causes = [
@@ -17,6 +17,7 @@ const causes = [
 export default function Donate() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <section
@@ -88,27 +89,29 @@ export default function Donate() {
             Secure online donations accepted. You will receive a tax-deductible receipt. Gurdwara Nanaksar Fresno is a registered 501(c)(3) nonprofit organization.
           </p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <a
-              href={SQUARE_DONATE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: "inline-block", background: "#D4A520", color: "#0B1D3A", padding: "16px 40px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontSize: 13, fontFamily: "var(--font-inter), sans-serif", border: "none", borderRadius: 4, cursor: "pointer", textDecoration: "none", transition: "background 0.2s" }}
-              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = "#F0D060")}
-              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = "#D4A520")}
+            <button
+              onClick={() => setShowModal(true)}
+              style={{ background: "#D4A520", color: "#0B1D3A", padding: "16px 40px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontSize: 13, fontFamily: "var(--font-inter), sans-serif", border: "none", borderRadius: 4, cursor: "pointer", transition: "background 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.background = "#F0D060")}
+              onMouseLeave={e => (e.currentTarget.style.background = "#D4A520")}
             >
               Donate Now
-            </a>
+            </button>
             <a
               href={SQUARE_MONTHLY_URL}
               target="_blank"
               rel="noopener noreferrer"
               style={{ display: "inline-block", background: "transparent", color: "#D4A520", padding: "16px 40px", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", fontSize: 13, fontFamily: "var(--font-inter), sans-serif", border: "1px solid rgba(201,168,76,0.4)", borderRadius: 4, cursor: "pointer", textDecoration: "none", transition: "background 0.2s" }}
-              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = "rgba(201,168,76,0.1)")}
-              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = "transparent")}
+              onMouseEnter={e => (e.currentTarget.style.background = "rgba(201,168,76,0.1)")}
+              onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
             >
               Monthly Giving
             </a>
           </div>
+
+          <AnimatePresence>
+            {showModal && <DonateModal onClose={() => setShowModal(false)} />}
+          </AnimatePresence>
         </motion.div>
       </div>
     </section>
