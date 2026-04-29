@@ -22,6 +22,17 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
     process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID
   );
 
+  // Lock body scroll while modal is open
+  useEffect(() => {
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+    };
+  }, []);
+
   useEffect(() => {
     if (!configured) return;
 
