@@ -66,11 +66,16 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
       }
     };
 
+    const isSandbox = process.env.NEXT_PUBLIC_SQUARE_APP_ID?.startsWith("sandbox-");
+    const sdkUrl = isSandbox
+      ? "https://sandbox.web.squarecdn.com/v1/square.js"
+      : "https://web.squarecdn.com/v1/square.js";
+
     if (window.Square) {
       init();
     } else {
       const script = document.createElement("script");
-      script.src = "https://web.squarecdn.com/v1/square.js";
+      script.src = sdkUrl;
       script.onload = init;
       document.head.appendChild(script);
     }
