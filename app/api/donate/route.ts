@@ -15,7 +15,12 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await fetch("https://connect.squareup.com/v2/payments", {
+    const isSandbox = process.env.NEXT_PUBLIC_SQUARE_APP_ID?.startsWith("sandbox-");
+    const squareUrl = isSandbox
+      ? "https://connect.squareupsandbox.com/v2/payments"
+      : "https://connect.squareup.com/v2/payments";
+
+    const response = await fetch(squareUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
