@@ -51,7 +51,7 @@ export default function Contact() {
               {[
                 { Icon: MapPin, label: "Address", value: "3060 S Cherry Ave\nFresno, CA 93706" },
                 { Icon: Phone, label: "Phone", value: "(XXX) XXX-XXXX" },
-                { Icon: Mail, label: "Email", value: "info@gurdwaranakasarfresno.org" },
+                { Icon: Mail, label: "Email", value: "gurudwarananaksar3060@gmail.com" },
               ].map(({ Icon, label, value }) => (
                 <div key={label} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
                   <div style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(201,168,76,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
