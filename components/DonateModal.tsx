@@ -17,6 +17,7 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const cardRef = useRef<any>(null);
+  const initRef = useRef(false);
   const [cardReady, setCardReady] = useState(false);
   const configured = !!(
     process.env.NEXT_PUBLIC_SQUARE_APP_ID &&
@@ -35,7 +36,8 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
   }, []);
 
   useEffect(() => {
-    if (!configured) return;
+    if (!configured || initRef.current) return;
+    initRef.current = true;
 
     const init = async () => {
       if (!window.Square) return;
