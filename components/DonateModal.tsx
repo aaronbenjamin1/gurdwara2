@@ -82,7 +82,13 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
       document.head.appendChild(script);
     }
 
-    return () => { cardRef.current?.destroy?.(); };
+    return () => {
+      cardRef.current?.destroy?.();
+      cardRef.current = null;
+      initRef.current = false;
+      const el = document.getElementById("sq-card");
+      if (el) el.innerHTML = "";
+    };
   }, [configured]);
 
   const finalAmount = useCustom ? parseFloat(custom) || 0 : selected;
