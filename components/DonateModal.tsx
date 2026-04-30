@@ -17,7 +17,6 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const cardRef = useRef<any>(null);
-  const initRef = useRef(false);
   const [cardReady, setCardReady] = useState(false);
   const configured = !!(
     process.env.NEXT_PUBLIC_SQUARE_APP_ID &&
@@ -36,8 +35,8 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
   }, []);
 
   useEffect(() => {
-    if (!configured || initRef.current) return;
-    initRef.current = true;
+    if (!configured) return;
+    let aborted = false;
 
     const init = async () => {
       if (!window.Square) return;
@@ -46,12 +45,10 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
           process.env.NEXT_PUBLIC_SQUARE_APP_ID,
           process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID
         );
+        if (aborted) return;
         const card = await payments.card({
           style: {
-            ".input-container": {
-              borderColor: "rgba(201,168,76,0.25)",
-              borderRadius: "6px",
-            },
+            ".input-container": { borderColor: "rgba(201,168,76,0.25)", borderRadius: "6px" },
             ".input-container.is-focus": { borderColor: "#D4A520" },
             ".input-container.is-error": { borderColor: "#FF5555" },
             input: { backgroundColor: "#0B1D3A", color: "#F0D060", fontFamily: "sans-serif" },
@@ -60,11 +57,13 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
             ".message-text.is-error": { color: "#FF5555" },
           },
         });
+        if (aborted) { card.destroy(); return; }
         await card.attach("#sq-card");
+        if (aborted) { card.destroy(); return; }
         cardRef.current = card;
         setCardReady(true);
       } catch (e) {
-        console.error("Square init error:", e);
+        if (!aborted) console.error("Square init error:", e);
       }
     };
 
@@ -83,9 +82,9 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
     }
 
     return () => {
+      aborted = true;
       cardRef.current?.destroy?.();
       cardRef.current = null;
-      initRef.current = false;
       const el = document.getElementById("sq-card");
       if (el) el.innerHTML = "";
     };
