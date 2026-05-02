@@ -50,7 +50,6 @@ export default function Contact() {
             <div style={{ display: "flex", flexDirection: "column", gap: 22, marginBottom: 36 }}>
               {[
                 { Icon: MapPin, label: "Address", value: "3060 S Cherry Ave\nFresno, CA 93706" },
-                { Icon: Phone, label: "Phone", value: "(XXX) XXX-XXXX" },
                 { Icon: Mail, label: "Email", value: "gurudwarananaksar3060@gmail.com" },
               ].map(({ Icon, label, value }) => (
                 <div key={label} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
