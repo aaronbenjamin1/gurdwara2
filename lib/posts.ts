@@ -243,8 +243,6 @@ export const posts: Post[] = [
       },
     ],
   },
-];
-
   {
     slug: "sikh-gurdwara-near-me",
     title: "Sikh Gurdwara Near Me: Find Your Community in Fresno and the Central Valley",
@@ -399,6 +397,7 @@ export const posts: Post[] = [
       },
     ],
   },
+];
 
 export function getPost(slug: string): Post | undefined {
   return posts.find((p) => p.slug === slug);
