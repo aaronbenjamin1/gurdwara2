@@ -17,7 +17,9 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const cardRef = useRef<any>(null);
+  const paymentsRef = useRef<any>(null);
   const [cardReady, setCardReady] = useState(false);
+  const [applePayAvailable, setApplePayAvailable] = useState(false);
   const configured = !!(
     process.env.NEXT_PUBLIC_SQUARE_APP_ID &&
     process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID
@@ -46,6 +48,13 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
           process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID
         );
         if (aborted) return;
+        paymentsRef.current = payments;
+
+        // Check Apple Pay availability
+        if (typeof window !== "undefined" && (window as any).ApplePaySession?.canMakePayments()) {
+          setApplePayAvailable(true);
+        }
+
         const card = await payments.card({
           style: {
             ".input-container": { borderColor: "rgba(201,168,76,0.25)", borderRadius: "6px" },
@@ -118,6 +127,35 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
       setStatus("success");
     } catch (err: any) {
       setErrorMsg(err.message || "Payment failed. Please try again.");
+      setStatus("error");
+    }
+  };
+
+  const handleApplePay = async () => {
+    if (!paymentsRef.current || finalAmount <= 0 || status === "loading") return;
+    setStatus("loading");
+    setErrorMsg("");
+    try {
+      const request = paymentsRef.current.paymentRequest({
+        countryCode: "US",
+        currencyCode: "USD",
+        total: { amount: finalAmount.toFixed(2), label: "Gurdwara Nanaksar Fresno Donation" },
+      });
+      const applePay = await paymentsRef.current.applePay(request);
+      const result = await applePay.tokenize();
+      if (result.status !== "OK" || !result.token) {
+        throw new Error(result.errors?.[0]?.message || "Apple Pay failed.");
+      }
+      const res = await fetch("/api/donate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sourceId: result.token, amount: finalAmount }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || "Payment failed");
+      setStatus("success");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Apple Pay failed. Please try again.");
       setStatus("error");
     }
   };
@@ -246,6 +284,41 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
                   }}
                 />
               </div>
+
+              {/* Apple Pay */}
+              {applePayAvailable && (
+                <div style={{ marginBottom: 20 }}>
+                  <button
+                    type="button"
+                    onClick={handleApplePay}
+                    disabled={finalAmount <= 0 || status === "loading"}
+                    style={{
+                      width: "100%",
+                      height: 50,
+                      background: "#000",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: 8,
+                      cursor: finalAmount <= 0 || status === "loading" ? "not-allowed" : "pointer",
+                      fontSize: 18,
+                      fontWeight: 600,
+                      letterSpacing: 0,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 8,
+                      opacity: finalAmount <= 0 ? 0.5 : 1,
+                    }}
+                  >
+                     Pay
+                  </button>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "16px 0" }}>
+                    <div style={{ flex: 1, height: 1, background: "rgba(201,168,76,0.15)" }} />
+                    <span style={{ color: "rgba(232,213,163,0.3)", fontSize: 11, fontFamily: "var(--font-inter), sans-serif" }}>or pay with card</span>
+                    <div style={{ flex: 1, height: 1, background: "rgba(201,168,76,0.15)" }} />
+                  </div>
+                </div>
+              )}
 
               {/* Square card element */}
               <div style={{ marginBottom: 24 }}>

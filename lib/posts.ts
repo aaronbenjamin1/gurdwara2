@@ -245,6 +245,161 @@ export const posts: Post[] = [
   },
 ];
 
+  {
+    slug: "sikh-gurdwara-near-me",
+    title: "Sikh Gurdwara Near Me: Find Your Community in Fresno and the Central Valley",
+    description:
+      "Looking for a Sikh Gurdwara near you in Fresno or the Central Valley? Gurdwara Nanaksar Fresno is open to everyone — Sikh or not — for prayer, langar, and community.",
+    date: "2025-05-05",
+    category: "Find Us",
+    readTime: "4 min read",
+    keywords: [
+      "sikh gurdwara near me",
+      "gurdwara near me",
+      "sikh temple near me Fresno",
+      "nearest gurdwara California",
+      "gurdwara Central Valley",
+    ],
+    sections: [
+      {
+        paragraphs: [
+          "If you've searched \"Sikh Gurdwara near me\" and found yourself in Fresno or the Central Valley of California, you're in the right place. Gurdwara Nanaksar Fresno is located at 3060 S Cherry Ave, Fresno, CA 93706 — and our doors are open to everyone.",
+          "Whether you are a Sikh looking for a spiritual home, someone curious about Sikhism, or simply seeking community, you are warmly welcome here. No appointment needed. No prior knowledge required.",
+        ],
+      },
+      {
+        heading: "Where to Find Us",
+        paragraphs: [
+          "Gurdwara Nanaksar Fresno is conveniently located on the south side of Fresno, easily accessible from Highway 99 and surrounding communities including Clovis, Madera, Visalia, Tulare, and Hanford.",
+          "We are open daily for morning and evening Nitnem (prayers), with Sunday Diwan being our largest weekly gathering. Langar — free vegetarian meals — is served after every service.",
+        ],
+      },
+      {
+        heading: "What to Expect When You Arrive",
+        paragraphs: [
+          "When you arrive, you will be greeted by members of the Sangat (congregation). Cover your head — scarves are available at the entrance if needed — and remove your shoes before entering the prayer hall.",
+          "You do not need to be Sikh to attend. The Gurdwara has always been a place for all of humanity. Simply come with an open heart.",
+        ],
+      },
+      {
+        heading: "The Sikh Community of the Central Valley",
+        paragraphs: [
+          "The Central Valley of California is home to one of the largest Sikh communities in the United States. Sikh farmers have worked this land for over a century, and Gurdwaras like Nanaksar Fresno serve as anchor institutions for this community — providing spiritual grounding, cultural continuity, and social support.",
+          "If you are new to the area, recently moved, or have never visited a Gurdwara, this is a wonderful place to start.",
+        ],
+      },
+      {
+        heading: "Come Visit Us",
+        paragraphs: [
+          "Gurdwara Nanaksar Fresno is at 3060 S Cherry Ave, Fresno, CA 93706. We hold services throughout the week. You can reach us through the contact form on this site or simply show up — you will always be welcome.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "fresno-gurdwara",
+    title: "Fresno Gurdwara: Your Complete Guide to Gurdwara Nanaksar Fresno",
+    description:
+      "Gurdwara Nanaksar Fresno is the heart of the Sikh community in Fresno, CA. Learn about services, langar, history, and how to visit this welcoming Sikh house of worship.",
+    date: "2025-05-08",
+    category: "Our Gurdwara",
+    readTime: "5 min read",
+    keywords: [
+      "fresno gurdwara",
+      "gurdwara in fresno ca",
+      "sikh temple fresno california",
+      "fresno sikh community",
+      "nanaksar fresno",
+    ],
+    sections: [
+      {
+        paragraphs: [
+          "Gurdwara Nanaksar Fresno is the spiritual center of the Sikh community in Fresno, California. Situated at 3060 S Cherry Ave, it has served generations of Sikhs in the Central Valley and remains one of the most active Gurdwaras in the region.",
+          "This guide covers everything you need to know about visiting or connecting with this Fresno Gurdwara — from weekly services and langar to youth programs and community events.",
+        ],
+      },
+      {
+        heading: "Daily and Weekly Services",
+        paragraphs: [
+          "Nitnem — the daily recitation of Gurbani — takes place every morning and evening at the Gurdwara. Sunday Diwan is the main weekly congregation, drawing Sangat from across Fresno and surrounding communities for extended Kirtan, Katha (spiritual discourse), and Ardas.",
+          "Special services are held for all major Gurpurabs (Sikh holy days), including the birthdays of the Gurus and significant dates in the Sikh calendar.",
+        ],
+      },
+      {
+        heading: "Langar at Gurdwara Nanaksar Fresno",
+        paragraphs: [
+          "True to the tradition established by Guru Nanak Dev Ji, Langar is served at every service — completely free of charge, to anyone who comes. The meals are vegetarian, freshly prepared by volunteers, and served to all equally.",
+          "If you have never experienced Langar, it is one of the most moving expressions of the Sikh value of equality. Rich and poor, young and old, Sikh and non-Sikh all sit together and share the same meal.",
+        ],
+      },
+      {
+        heading: "Youth Programs in Fresno",
+        paragraphs: [
+          "Gurdwara Nanaksar Fresno runs active programs for children and youth, including Gurmukhi language classes, Kirtan training, and Gatka — the traditional Sikh martial art. These programs help young Sikhs in Fresno stay connected to their heritage and develop a deep sense of identity.",
+        ],
+      },
+      {
+        heading: "How to Get There",
+        paragraphs: [
+          "Gurdwara Nanaksar Fresno is located at 3060 S Cherry Ave, Fresno, CA 93706 — accessible from Highway 99 and central to communities across the Central Valley. Free parking is available on site.",
+          "We invite you to come as you are. Whether this is your first visit to any Gurdwara or you are returning home after time away, you will find the same warmth and welcome that has always defined this space.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "sikh-temple-near-me",
+    title: "Sikh Temple Near Me: What to Know Before Your First Visit",
+    description:
+      "Searching for a Sikh temple near you? Learn what a Sikh temple (Gurdwara) is, what happens inside, and why Gurdwara Nanaksar Fresno welcomes visitors of all backgrounds.",
+    date: "2025-05-10",
+    category: "Visiting",
+    readTime: "5 min read",
+    keywords: [
+      "sikh temple near me",
+      "sikh mandir near me",
+      "nearest sikh temple",
+      "sikh worship near me",
+      "sikh temple california",
+    ],
+    sections: [
+      {
+        paragraphs: [
+          "When people search for a \"Sikh temple near me,\" they are often looking for more than just a building — they are looking for community, spiritual grounding, or a deeper understanding of a tradition that may be new to them. Whatever brings you here, you are welcome.",
+          "In Sikhism, a house of worship is called a Gurdwara — not a temple. But regardless of what you call it, the experience inside is one of the most open and welcoming in any spiritual tradition. Gurdwara Nanaksar Fresno at 3060 S Cherry Ave is that place for Fresno and the Central Valley.",
+        ],
+      },
+      {
+        heading: "What Is a Sikh Temple (Gurdwara)?",
+        paragraphs: [
+          "The word Gurdwara means \"the door to the Guru.\" It is a place where the Sikh scripture — the Sri Guru Granth Sahib Ji — is enshrined and revered as the living Guru. Services center on Kirtan (devotional music), Gurbani readings, and Ardas (communal prayer).",
+          "Unlike many houses of worship, there are no paid clergy at a Gurdwara. All service is performed by volunteers as Seva — selfless service — which is one of the core pillars of Sikh life.",
+        ],
+      },
+      {
+        heading: "Is It Open to Non-Sikhs?",
+        paragraphs: [
+          "Absolutely. The Gurdwara has four doors, symbolizing that it is open to people from all four directions of the world, from every background and belief. You do not need to be Sikh, know any Punjabi, or follow any particular religion to enter.",
+          "Thousands of non-Sikhs visit Gurdwaras across the world every year and are welcomed with the same warmth as lifelong members of the Sangat.",
+        ],
+      },
+      {
+        heading: "Simple Etiquette for Your Visit",
+        paragraphs: [
+          "There are just a few things to keep in mind: cover your head before entering (scarves are provided), remove your shoes at the entrance, and wash your hands if you can. Beyond that, simply be present and respectful.",
+          "You will likely be invited to receive Karah Prasad — a sweet offering distributed at the end of the service — and to stay for Langar, the free community meal. Both are open to everyone.",
+        ],
+      },
+      {
+        heading: "Find Your Nearest Sikh Temple in Fresno",
+        paragraphs: [
+          "If you are in Fresno or the broader Central Valley and looking for a Sikh temple near you, Gurdwara Nanaksar Fresno is here. We are open daily and hold services throughout the week.",
+          "Come visit us at 3060 S Cherry Ave, Fresno, CA 93706. No prior knowledge, no reservation, no dress code beyond a head covering — just bring yourself.",
+        ],
+      },
+    ],
+  },
+
 export function getPost(slug: string): Post | undefined {
   return posts.find((p) => p.slug === slug);
 }

@@ -7,11 +7,28 @@ export default function Contact() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    setSending(true);
+    setSendError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send.");
+      setSent(true);
+    } catch (err: any) {
+      setSendError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -160,13 +177,19 @@ export default function Contact() {
                       style={{ width: "100%", background: "#0B1D3A", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 6, padding: "12px 14px", color: "#F0D060", fontFamily: "var(--font-inter), sans-serif", fontSize: 14, outline: "none", resize: "none", boxSizing: "border-box" }}
                     />
                   </div>
+                  {sendError && (
+                    <p style={{ color: "#FF6666", fontSize: 13, fontFamily: "var(--font-inter), sans-serif", margin: 0 }}>
+                      {sendError}
+                    </p>
+                  )}
                   <button
                     type="submit"
-                    style={{ background: "#D4A520", color: "#0B1D3A", padding: "16px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontSize: 13, fontFamily: "var(--font-inter), sans-serif", border: "none", borderRadius: 6, cursor: "pointer" }}
-                    onMouseEnter={e => (e.currentTarget.style.background = "#F0D060")}
-                    onMouseLeave={e => (e.currentTarget.style.background = "#D4A520")}
+                    disabled={sending}
+                    style={{ background: sending ? "rgba(212,165,32,0.5)" : "#D4A520", color: "#0B1D3A", padding: "16px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontSize: 13, fontFamily: "var(--font-inter), sans-serif", border: "none", borderRadius: 6, cursor: sending ? "not-allowed" : "pointer" }}
+                    onMouseEnter={e => { if (!sending) e.currentTarget.style.background = "#F0D060"; }}
+                    onMouseLeave={e => { if (!sending) e.currentTarget.style.background = "#D4A520"; }}
                   >
-                    Send Message
+                    {sending ? "Sending…" : "Send Message"}
                   </button>
                 </form>
               )}
