@@ -16,11 +16,8 @@ function getImages(): string[] {
   const dir = path.join(process.cwd(), "public", "gallery");
   try {
     return fs.readdirSync(dir)
-      .filter(f => /\.(jpe?g|png|webp|gif)$/i.test(f))
-      .sort((a, b) => {
-        const n = (s: string) => parseInt(s.match(/\d+/)?.[0] ?? "0");
-        return n(a) - n(b);
-      })
+      .filter(f => /\.(jpe?g|png|webp|gif)$/i.test(f) && !f.includes("("))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }))
       .map(f => `/gallery/${f}`);
   } catch {
     return [];
