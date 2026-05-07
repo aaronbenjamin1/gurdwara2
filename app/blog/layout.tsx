@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Blog | Gurdwara Nanaksar Fresno",
   description:
     "Articles about Sikhism, community, and events from Gurdwara Nanaksar Fresno — serving the Central Valley of California.",
+  alternates: {
+    canonical: "https://gurdwarananaksarfresno.com/blog",
+  },
   openGraph: {
     title: "Blog | Gurdwara Nanaksar Fresno",
     description:
