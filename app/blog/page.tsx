@@ -1,9 +1,7 @@
-"use client";
 import Link from "next/link";
 import { posts } from "@/lib/posts";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 
 export default function BlogIndex() {
   const sorted = [...posts].sort(
@@ -33,6 +31,10 @@ export default function BlogIndex() {
 
         {/* Post grid */}
         <div style={{ maxWidth: 820, margin: "0 auto", padding: "56px 24px 96px" }}>
+          <style>{`
+            .blog-card { transition: border-color 0.2s, transform 0.15s; }
+            .blog-card:hover { border-color: rgba(201,168,76,0.35) !important; transform: translateY(-2px); }
+          `}</style>
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {sorted.map((post) => (
               <Link
@@ -41,21 +43,13 @@ export default function BlogIndex() {
                 style={{ textDecoration: "none" }}
               >
                 <article
+                  className="blog-card"
                   style={{
                     background: "linear-gradient(135deg, #152B52, #0F2347)",
                     border: "1px solid rgba(201,168,76,0.12)",
                     borderRadius: 14,
                     padding: "32px 36px",
-                    transition: "border-color 0.2s, transform 0.15s",
                     cursor: "pointer",
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,168,76,0.35)";
-                    (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,168,76,0.12)";
-                    (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
