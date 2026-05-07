@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import Link from "next/link";
 
 const tiles = [
   { id: 1, label: "Darbar Sahib", image: "/gallery/gallery-1.jpg", gradient: "linear-gradient(135deg, rgba(120,80,20,0.8), rgba(100,70,10,0.5))", span: { gridColumn: "span 2", gridRow: "span 2" }, spanClass: "gallery-span2col gallery-span2row" },
@@ -48,7 +49,7 @@ export default function Gallery() {
           </p>
         </motion.div>
 
-        <div className="gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridAutoRows: 160, gap: 14 }}>
+        <div className="gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridAutoRows: 160, gap: 14, marginBottom: 40 }}>
           {tiles.map((tile, i) => {
             return (
               <motion.div
@@ -80,6 +81,33 @@ export default function Gallery() {
             );
           })}
         </div>
+        {/* View Full Gallery button */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.7 }}
+          style={{ textAlign: "center", marginTop: 8 }}
+        >
+          <Link
+            href="/gallery"
+            style={{
+              display: "inline-block",
+              border: "1px solid rgba(201,168,76,0.4)",
+              color: "#D4A520",
+              padding: "12px 32px",
+              borderRadius: 6,
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              fontFamily: "var(--font-inter), sans-serif",
+              textDecoration: "none",
+              transition: "background 0.2s, border-color 0.2s",
+            }}
+          >
+            View Full Gallery →
+          </Link>
+        </motion.div>
       </div>
 
       <AnimatePresence>
