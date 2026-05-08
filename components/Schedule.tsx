@@ -268,7 +268,7 @@ export default function Schedule() {
               transition={{ duration: 0.3 }}
               style={{ display: "flex", flexDirection: "column", gap: 10 }}
             >
-              {scheduleData[active as Exclude<Tab, "calendar">].map((item, i) => {
+              {scheduleData[active as Exclude<Tab, "calendar" | "daily">].map((item, i) => {
                 const Icon = item.icon;
                 return (
                   <motion.div
