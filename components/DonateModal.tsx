@@ -8,7 +8,7 @@ declare global {
   interface Window { Square?: any; }
 }
 
-const PRESETS = [25, 50, 108, 251];
+const PRESETS = [10, 20, 50, 100];
 
 function ApplePayLogo() {
   return (
@@ -58,7 +58,7 @@ function GooglePayButton({ onClick, disabled }: { onClick: () => void; disabled:
 }
 
 export default function DonateModal({ onClose }: { onClose: () => void }) {
-  const [selected, setSelected] = useState(50);
+  const [selected, setSelected] = useState(20);
   const [custom, setCustom] = useState("");
   const [useCustom, setUseCustom] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
