@@ -69,11 +69,11 @@ export default function Navbar() {
         borderRadius: 4,
         cursor: "pointer",
         color: "#D4A520",
-        fontSize: mobile ? 13 : 11,
+        fontSize: mobile ? 15 : 13,
         fontWeight: 700,
         letterSpacing: "0.06em",
         fontFamily: "var(--font-inter), sans-serif",
-        padding: mobile ? "6px 14px" : "5px 10px",
+        padding: mobile ? "8px 16px" : "7px 14px",
         transition: "background 0.2s",
         flexShrink: 0,
       }}

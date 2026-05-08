@@ -14,15 +14,48 @@ type Item = {
   icon: typeof Sun;
 };
 
-const scheduleData: Record<Exclude<Tab, "calendar">, Item[]> = {
-  daily: [
-    { time: "4:00 AM", name: { en: "Amrit Vela", pa: "ਅੰਮ੍ਰਿਤ ਵੇਲਾ" }, description: { en: "Pre-dawn meditation and Naam Simran", pa: "ਸਵੇਰੇ ਦਾ ਸਿਮਰਨ ਅਤੇ ਨਾਮ ਜਪ" }, icon: Star },
-    { time: "5:00 AM", name: { en: "Nitnem Banis", pa: "ਨਿਤਨੇਮ ਬਾਣੀਆਂ" }, description: { en: "Morning prayers — Japji, Jaap, and Tav Prasad Savaiye", pa: "ਸਵੇਰ ਦੀਆਂ ਬਾਣੀਆਂ — ਜਪੁਜੀ, ਜਾਪੁ, ਤਵ ਪ੍ਰਸਾਦ ਸਵੱਯੇ" }, icon: Sun },
-    { time: "6:00 AM", name: { en: "Hukamnama", pa: "ਹੁਕਮਨਾਮਾ" }, description: { en: "Daily divine command from Sri Guru Granth Sahib Ji", pa: "ਸ੍ਰੀ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ ਤੋਂ ਰੋਜ਼ਾਨਾ ਹੁਕਮਨਾਮਾ" }, icon: Star },
-    { time: "7:00 AM", name: { en: "Morning Langar", pa: "ਸਵੇਰੇ ਦਾ ਲੰਗਰ" }, description: { en: "Community meal served to all visitors", pa: "ਸਾਰੇ ਆਉਣ ਵਾਲਿਆਂ ਨੂੰ ਲੰਗਰ" }, icon: Sun },
-    { time: "6:30 PM", name: { en: "Evening Rehras", pa: "ਸ਼ਾਮ ਦਾ ਰਹਿਰਾਸ" }, description: { en: "Evening prayers and Ardas", pa: "ਸ਼ਾਮ ਦੀਆਂ ਅਰਦਾਸਾਂ" }, icon: Moon },
-    { time: "7:30 PM", name: { en: "Keertan", pa: "ਕੀਰਤਨ" }, description: { en: "Evening devotional singing of Gurbani", pa: "ਸ਼ਾਮ ਦਾ ਗੁਰਬਾਣੀ ਕੀਰਤਨ" }, icon: Moon },
-  ],
+type DailySection = {
+  heading: { en: string; pa: string };
+  icon: typeof Sun;
+  items: { time: string; name: { en: string; pa: string } }[];
+};
+
+const dailySections: DailySection[] = [
+  {
+    heading: { en: "Morning — Amrit Vela", pa: "ਸਵੇਰ — ਅੰਮ੍ਰਿਤ ਵੇਲਾ" },
+    icon: Star,
+    items: [
+      { time: "4:00 AM", name: { en: "Parkash", pa: "ਪ੍ਰਕਾਸ਼" } },
+      { time: "4:30 – 5:45 AM", name: { en: "Path Sukhmani Sahib", pa: "ਪਾਠ ਸੁਖਮਨੀ ਸਾਹਿਬ" } },
+      { time: "6:00 – 7:00 AM", name: { en: "Kirtan Asa Ki Vaar", pa: "ਕੀਰਤਨ ਆਸਾ ਕੀ ਵਾਰ" } },
+      { time: "7:00 – 7:10 AM", name: { en: "Hukamnama Sahib, Ardas & Smapati", pa: "ਹੁਕਮਨਾਮਾ ਸਾਹਿਬ, ਅਰਦਾਸ ਅਤੇ ਸਮਾਪਤੀ" } },
+    ],
+  },
+  {
+    heading: { en: "Evening — Summer", pa: "ਸ਼ਾਮ — ਗਰਮੀਆਂ" },
+    icon: Sun,
+    items: [
+      { time: "6:00 – 6:30 PM", name: { en: "Katha Guru Granth Sahib", pa: "ਕਥਾ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ" } },
+      { time: "6:30 – 7:00 PM", name: { en: "Path Rehrash Sahib", pa: "ਪਾਠ ਰਹਿਰਾਸ ਸਾਹਿਬ" } },
+      { time: "7:00 – 7:15 PM", name: { en: "Ardas", pa: "ਅਰਦਾਸ" } },
+      { time: "7:15 – 8:00 PM", name: { en: "Kirtan Hazari", pa: "ਕੀਰਤਨ ਹਜ਼ੂਰੀ" } },
+      { time: "8:00 – 8:10 PM", name: { en: "Har Jas, Hukamnama, Ardas & Smapati", pa: "ਹਰ ਜਸ, ਹੁਕਮਨਾਮਾ, ਅਰਦਾਸ ਅਤੇ ਸਮਾਪਤੀ" } },
+    ],
+  },
+  {
+    heading: { en: "Evening — Winter", pa: "ਸ਼ਾਮ — ਸਰਦੀਆਂ" },
+    icon: Moon,
+    items: [
+      { time: "5:00 – 5:30 PM", name: { en: "Katha Guru Granth Sahib", pa: "ਕਥਾ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ" } },
+      { time: "5:30 – 6:00 PM", name: { en: "Path Rehrash Sahib", pa: "ਪਾਠ ਰਹਿਰਾਸ ਸਾਹਿਬ" } },
+      { time: "6:00 – 6:15 PM", name: { en: "Ardas", pa: "ਅਰਦਾਸ" } },
+      { time: "6:15 – 7:00 PM", name: { en: "Kirtan Hazari", pa: "ਕੀਰਤਨ ਹਜ਼ੂਰੀ" } },
+      { time: "7:00 – 7:10 PM", name: { en: "Har Jas, Hukamnama, Ardas & Smapati", pa: "ਹਰ ਜਸ, ਹੁਕਮਨਾਮਾ, ਅਰਦਾਸ ਅਤੇ ਸਮਾਪਤੀ" } },
+    ],
+  },
+];
+
+const scheduleData: Record<Exclude<Tab, "calendar" | "daily">, Item[]> = {
   sunday: [
     { time: "6:00 – 7:00 AM", name: { en: "Kirtan Asa Ki Vaar", pa: "ਕੀਰਤਨ ਆਸਾ ਕੀ ਵਾਰ" }, description: { en: "Morning musical recitation of Asa Ki Vaar by Guru Nanak Dev Ji", pa: "ਗੁਰੂ ਨਾਨਕ ਦੇਵ ਜੀ ਦੀ ਆਸਾ ਕੀ ਵਾਰ ਦਾ ਕੀਰਤਨ" }, icon: Star },
     { time: "7:00 – 9:00 AM", name: { en: "Sukhmani Sahib By Sangat", pa: "ਸੁਖਮਨੀ ਸਾਹਿਬ — ਸੰਗਤ ਦੁਆਰਾ" }, description: { en: "Communal recitation of Sukhmani Sahib — the prayer of peace", pa: "ਸੰਗਤ ਵੱਲੋਂ ਸੁਖਮਨੀ ਸਾਹਿਬ ਦਾ ਪਾਠ" }, icon: Sun },
@@ -128,7 +161,60 @@ export default function Schedule() {
         </motion.div>
 
         <AnimatePresence mode="wait">
-          {active === "calendar" ? (
+          {active === "daily" ? (
+            <motion.div
+              key="daily"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.3 }}
+              style={{ display: "flex", flexDirection: "column", gap: 28 }}
+            >
+              {dailySections.map((section, si) => {
+                const SIcon = section.icon;
+                return (
+                  <div key={section.heading.en}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                      <SIcon color="#D4A520" size={14} />
+                      <span style={{ color: "#D4A520", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif" }}>
+                        {section.heading[lang]}
+                      </span>
+                      <div style={{ flex: 1, height: 1, background: "rgba(201,168,76,0.15)" }} />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                      {section.items.map((item, i) => (
+                        <motion.div
+                          key={item.name.en}
+                          initial={{ opacity: 0, x: -12 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: (si * 0.1) + i * 0.05 }}
+                          style={{
+                            background: "linear-gradient(90deg, #152B52, #0F2347)",
+                            border: "1px solid rgba(201,168,76,0.12)",
+                            borderRadius: 10,
+                            padding: "14px 18px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 16,
+                          }}
+                        >
+                          <div style={{ flexShrink: 0, minWidth: 120 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#D4A520", fontSize: 12, fontWeight: 600, fontFamily: "var(--font-inter), sans-serif" }}>
+                              <Clock size={11} color="#D4A520" />
+                              {item.time}
+                            </div>
+                          </div>
+                          <div style={{ color: "#f5f0e8", fontWeight: 600, fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 15 }}>
+                            {item.name[lang]}
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </motion.div>
+          ) : active === "calendar" ? (
             <motion.div
               key="calendar"
               initial={{ opacity: 0, y: 16 }}
