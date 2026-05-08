@@ -2,46 +2,74 @@
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Clock, Sun, Moon, Star } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import T from "@/lib/translations";
 
-const tabs = ["Daily", "Saturday", "Sunday", "Special"] as const;
-type Tab = typeof tabs[number];
+type Tab = "daily" | "sunday" | "calendar" | "special";
 
-const schedule: Record<Tab, { time: string; name: string; description: string; icon: typeof Sun }[]> = {
-  Daily: [
-    { time: "4:00 AM", name: "Amrit Vela", description: "Pre-dawn meditation and Naam Simran", icon: Star },
-    { time: "5:00 AM", name: "Nitnem Banis", description: "Morning prayers — Japji, Jaap, and Tav Prasad Savaiye", icon: Sun },
-    { time: "6:00 AM", name: "Hukamnama", description: "Daily divine command from Sri Guru Granth Sahib Ji", icon: Star },
-    { time: "7:00 AM", name: "Morning Langar", description: "Community meal served to all visitors", icon: Sun },
-    { time: "6:30 PM", name: "Evening Rehras", description: "Evening prayers and Ardas", icon: Moon },
-    { time: "7:30 PM", name: "Keertan", description: "Evening devotional singing of Gurbani", icon: Moon },
+type Item = {
+  time: string;
+  name: { en: string; pa: string };
+  description: { en: string; pa: string };
+  icon: typeof Sun;
+};
+
+const scheduleData: Record<Exclude<Tab, "calendar">, Item[]> = {
+  daily: [
+    { time: "4:00 AM", name: { en: "Amrit Vela", pa: "ਅੰਮ੍ਰਿਤ ਵੇਲਾ" }, description: { en: "Pre-dawn meditation and Naam Simran", pa: "ਸਵੇਰੇ ਦਾ ਸਿਮਰਨ ਅਤੇ ਨਾਮ ਜਪ" }, icon: Star },
+    { time: "5:00 AM", name: { en: "Nitnem Banis", pa: "ਨਿਤਨੇਮ ਬਾਣੀਆਂ" }, description: { en: "Morning prayers — Japji, Jaap, and Tav Prasad Savaiye", pa: "ਸਵੇਰ ਦੀਆਂ ਬਾਣੀਆਂ — ਜਪੁਜੀ, ਜਾਪੁ, ਤਵ ਪ੍ਰਸਾਦ ਸਵੱਯੇ" }, icon: Sun },
+    { time: "6:00 AM", name: { en: "Hukamnama", pa: "ਹੁਕਮਨਾਮਾ" }, description: { en: "Daily divine command from Sri Guru Granth Sahib Ji", pa: "ਸ੍ਰੀ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ ਤੋਂ ਰੋਜ਼ਾਨਾ ਹੁਕਮਨਾਮਾ" }, icon: Star },
+    { time: "7:00 AM", name: { en: "Morning Langar", pa: "ਸਵੇਰੇ ਦਾ ਲੰਗਰ" }, description: { en: "Community meal served to all visitors", pa: "ਸਾਰੇ ਆਉਣ ਵਾਲਿਆਂ ਨੂੰ ਲੰਗਰ" }, icon: Sun },
+    { time: "6:30 PM", name: { en: "Evening Rehras", pa: "ਸ਼ਾਮ ਦਾ ਰਹਿਰਾਸ" }, description: { en: "Evening prayers and Ardas", pa: "ਸ਼ਾਮ ਦੀਆਂ ਅਰਦਾਸਾਂ" }, icon: Moon },
+    { time: "7:30 PM", name: { en: "Keertan", pa: "ਕੀਰਤਨ" }, description: { en: "Evening devotional singing of Gurbani", pa: "ਸ਼ਾਮ ਦਾ ਗੁਰਬਾਣੀ ਕੀਰਤਨ" }, icon: Moon },
   ],
-  Saturday: [
-    { time: "8:00 AM", name: "Akhand Path", description: "Continuous recitation of Sri Guru Granth Sahib Ji", icon: Star },
-    { time: "10:00 AM", name: "Keertan Darbar", description: "Extended morning keertan with visiting ragis", icon: Sun },
-    { time: "12:00 PM", name: "Langar Seva", description: "Community lunch — all are welcome", icon: Sun },
-    { time: "4:00 PM", name: "Gurmat Classes", description: "Punjabi and Gurbani education for youth", icon: Star },
-    { time: "7:00 PM", name: "Evening Diwan", description: "Evening congregation and keertan", icon: Moon },
+  sunday: [
+    { time: "6:00 – 7:00 AM", name: { en: "Kirtan Asa Ki Vaar", pa: "ਕੀਰਤਨ ਆਸਾ ਕੀ ਵਾਰ" }, description: { en: "Morning musical recitation of Asa Ki Vaar by Guru Nanak Dev Ji", pa: "ਗੁਰੂ ਨਾਨਕ ਦੇਵ ਜੀ ਦੀ ਆਸਾ ਕੀ ਵਾਰ ਦਾ ਕੀਰਤਨ" }, icon: Star },
+    { time: "7:00 – 9:00 AM", name: { en: "Sukhmani Sahib By Sangat", pa: "ਸੁਖਮਨੀ ਸਾਹਿਬ — ਸੰਗਤ ਦੁਆਰਾ" }, description: { en: "Communal recitation of Sukhmani Sahib — the prayer of peace", pa: "ਸੰਗਤ ਵੱਲੋਂ ਸੁਖਮਨੀ ਸਾਹਿਬ ਦਾ ਪਾਠ" }, icon: Sun },
+    { time: "9:15 – 10:15 AM", name: { en: "Bhog Sri Akhand Path Sahib", pa: "ਭੋਗ ਸ੍ਰੀ ਅਖੰਡ ਪਾਠ ਸਾਹਿਬ" }, description: { en: "Completion ceremony of the continuous recitation of Sri Guru Granth Sahib Ji", pa: "ਸ੍ਰੀ ਅਖੰਡ ਪਾਠ ਸਾਹਿਬ ਦੀ ਸਮਾਪਤੀ ਸਮਾਗਮ" }, icon: Star },
+    { time: "10:15 – 10:30 AM", name: { en: "Aarti and Ardas", pa: "ਆਰਤੀ ਅਤੇ ਅਰਦਾਸ" }, description: { en: "Ceremonial prayer and supplication before the congregation", pa: "ਸੰਗਤ ਅੱਗੇ ਆਰਤੀ ਅਤੇ ਅਰਦਾਸ" }, icon: Sun },
+    { time: "10:30 – 10:45 AM", name: { en: "Bhogan De Shabad & Hukamnama Sahib", pa: "ਭੋਗਣ ਦੇ ਸ਼ਬਦ ਅਤੇ ਹੁਕਮਨਾਮਾ ਸਾਹਿਬ" }, description: { en: "Closing shabads and the day's divine Hukamnama", pa: "ਭੋਗ ਦੇ ਸ਼ਬਦ ਅਤੇ ਹੁਕਮਨਾਮਾ ਸਾਹਿਬ" }, icon: Star },
+    { time: "10:45 – 11:30 AM", name: { en: "Kirtan Hazari — Hazoori Jatha", pa: "ਕੀਰਤਨ ਹਜ਼ੂਰੀ — ਹਜ਼ੂਰੀ ਜੱਥਾ" }, description: { en: "Devotional kirtan by the resident Hazoori Jatha", pa: "ਹਜ਼ੂਰੀ ਜੱਥੇ ਵੱਲੋਂ ਕੀਰਤਨ" }, icon: Sun },
+    { time: "11:30 AM – 12:00 PM", name: { en: "Katha Hazari", pa: "ਕਥਾ ਹਜ਼ੂਰੀ" }, description: { en: "Spiritual discourse and explanation of Gurbani", pa: "ਗੁਰਬਾਣੀ ਦੀ ਕਥਾ ਅਤੇ ਵਿਆਖਿਆ" }, icon: Star },
+    { time: "12:00 – 1:00 PM", name: { en: "Kirtan Hazari — Guest Ragis", pa: "ਕੀਰਤਨ ਹਜ਼ੂਰੀ — ਮਹਿਮਾਨ ਰਾਗੀ" }, description: { en: "Kirtan Hazari by guest ragis or visiting jatha", pa: "ਮਹਿਮਾਨ ਰਾਗੀਆਂ ਵੱਲੋਂ ਕੀਰਤਨ" }, icon: Moon },
+    { time: "1:00 – 1:15 PM", name: { en: "Ardas, Hukamnama & Smapati", pa: "ਅਰਦਾਸ, ਹੁਕਮਨਾਮਾ ਅਤੇ ਸਮਾਪਤੀ" }, description: { en: "Closing prayer, divine command, and congregation dismissal", pa: "ਅੰਤਿਮ ਅਰਦਾਸ, ਹੁਕਮਨਾਮਾ ਅਤੇ ਸੰਗਤ ਦੀ ਵਿਦਾਈ" }, icon: Moon },
   ],
-  Sunday: [
-    { time: "9:00 AM", name: "Morning Diwan", description: "Main weekly congregation and keertan", icon: Sun },
-    { time: "11:00 AM", name: "Katha", description: "Gurbani lecture and teachings", icon: Star },
-    { time: "12:30 PM", name: "Ardas & Hukamnama", description: "Community prayer and divine command", icon: Star },
-    { time: "1:00 PM", name: "Sunday Langar", description: "Full community meal — families welcome", icon: Sun },
-    { time: "3:00 PM", name: "Youth Sangat", description: "Youth activities, kirtan practice, and seva", icon: Star },
-    { time: "6:00 PM", name: "Rehras Sahib", description: "Evening prayer and closing ceremony", icon: Moon },
-  ],
-  Special: [
-    { time: "All Day", name: "Gurpurab Celebrations", description: "Birthdays of the Sikh Gurus — special akhand paths and keertan", icon: Star },
-    { time: "All Day", name: "Baisakhi", description: "Sikh New Year celebration with procession and festivities", icon: Sun },
-    { time: "All Day", name: "Diwali / Bandi Chhor Divas", description: "Festival of lights and liberation", icon: Star },
-    { time: "All Day", name: "Hola Mohalla", description: "Sikh festival of martial arts and community", icon: Sun },
+  special: [
+    { time: "All Day", name: { en: "Gurpurab Celebrations", pa: "ਗੁਰਪੁਰਬ ਸਮਾਗਮ" }, description: { en: "Birthdays of the Sikh Gurus — special akhand paths and keertan", pa: "ਸਿੱਖ ਗੁਰੂਆਂ ਦੇ ਪ੍ਰਕਾਸ਼ ਪੁਰਬ — ਅਖੰਡ ਪਾਠ ਅਤੇ ਕੀਰਤਨ" }, icon: Star },
+    { time: "All Day", name: { en: "Baisakhi", pa: "ਵਿਸਾਖੀ" }, description: { en: "Sikh New Year celebration with procession and festivities", pa: "ਨਗਰ ਕੀਰਤਨ ਅਤੇ ਵਿਸਾਖੀ ਦੇ ਜਸ਼ਨ" }, icon: Sun },
+    { time: "All Day", name: { en: "Diwali / Bandi Chhor Divas", pa: "ਦੀਵਾਲੀ / ਬੰਦੀ ਛੋੜ ਦਿਵਸ" }, description: { en: "Festival of lights and liberation", pa: "ਰੌਸ਼ਨੀ ਅਤੇ ਮੁਕਤੀ ਦਾ ਤਿਉਹਾਰ" }, icon: Star },
+    { time: "All Day", name: { en: "Hola Mohalla", pa: "ਹੋਲਾ ਮਹੱਲਾ" }, description: { en: "Sikh festival of martial arts and community", pa: "ਮਾਰਸ਼ਲ ਆਰਟਸ ਅਤੇ ਭਾਈਚਾਰੇ ਦਾ ਤਿਉਹਾਰ" }, icon: Sun },
   ],
 };
 
+const calendar2026 = [
+  { month: { en: "January", pa: "ਜਨਵਰੀ" }, puranMashee: "3 (Sat)", sangrand: "14 (Wed)", masia: "18 (Sun)", dasvee: "28 (Wed)" },
+  { month: { en: "February", pa: "ਫ਼ਰਵਰੀ" }, puranMashee: "1 (Sun)", sangrand: "12 (Thu)", masia: "17 (Tue)", dasvee: "26 (Thu)" },
+  { month: { en: "March", pa: "ਮਾਰਚ" }, puranMashee: "3 (Tue)", sangrand: "14 (Sat)", masia: "19 (Thu)", dasvee: "28 (Sat)" },
+  { month: { en: "April", pa: "ਅਪ੍ਰੈਲ" }, puranMashee: "2 (Thu)", sangrand: "14 (Tue)", masia: "17 (Fri)", dasvee: "26 (Sun)" },
+  { month: { en: "May", pa: "ਮਈ" }, puranMashee: "1 & 31 (Fri/Sun)", sangrand: "15 (Fri)", masia: "16 (Sat)", dasvee: "25 (Mon)" },
+  { month: { en: "June", pa: "ਜੂਨ" }, puranMashee: "29 (Mon)", sangrand: "15 (Mon)", masia: "15 (Mon)", dasvee: "24 (Wed)" },
+  { month: { en: "July", pa: "ਜੁਲਾਈ" }, puranMashee: "29 (Wed)", sangrand: "16 (Thu)", masia: "14 (Tue)", dasvee: "24 (Fri)" },
+  { month: { en: "August", pa: "ਅਗਸਤ" }, puranMashee: "28 (Fri)", sangrand: "17 (Mon)", masia: "12 (Wed)", dasvee: "22 (Sat)" },
+  { month: { en: "September", pa: "ਸਤੰਬਰ" }, puranMashee: "26 (Sat)", sangrand: "17 (Thu)", masia: "11 (Fri)", dasvee: "21 (Mon)" },
+  { month: { en: "October", pa: "ਅਕਤੂਬਰ" }, puranMashee: "26 (Mon)", sangrand: "17 (Sat)", masia: "10 (Sat)", dasvee: "21 (Wed)" },
+  { month: { en: "November", pa: "ਨਵੰਬਰ" }, puranMashee: "24 (Tue)", sangrand: "16 (Mon)", masia: "9 (Mon)", dasvee: "20 (Fri)" },
+  { month: { en: "December", pa: "ਦਸੰਬਰ" }, puranMashee: "23 (Wed)", sangrand: "16 (Wed)", masia: "8 (Tue)", dasvee: "19 (Sat)" },
+];
+
 export default function Schedule() {
-  const [active, setActive] = useState<Tab>("Sunday");
+  const [active, setActive] = useState<Tab>("sunday");
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const { lang } = useLanguage();
+  const t = T[lang].schedule;
+
+  const tabs: { key: Tab; label: string }[] = [
+    { key: "daily", label: t.tabDaily },
+    { key: "sunday", label: t.tabSunday },
+    { key: "calendar", label: t.tabCalendar },
+    { key: "special", label: t.tabSpecial },
+  ];
 
   return (
     <section
@@ -51,9 +79,8 @@ export default function Schedule() {
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)" }} />
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at top left, #152B52 0%, transparent 60%)" }} />
 
-      <div ref={ref} style={{ maxWidth: 800, margin: "0 auto", position: "relative", zIndex: 10 }}>
+      <div ref={ref} style={{ maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 10 }}>
 
-        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -61,10 +88,10 @@ export default function Schedule() {
           style={{ textAlign: "center", marginBottom: 48 }}
         >
           <p style={{ color: "#D4A520", fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif", marginBottom: 12 }}>
-            Come Pray With Us
+            {t.label}
           </p>
           <h2 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "#f5f0e8", marginBottom: 20, lineHeight: 1.2 }}>
-            Worship Schedule
+            {t.heading}
           </h2>
           <div style={{ width: 64, height: 1, background: "linear-gradient(90deg, #D4A520, #FF8C00)", margin: "0 auto" }} />
         </motion.div>
@@ -78,77 +105,123 @@ export default function Schedule() {
         >
           {tabs.map((tab) => (
             <button
-              key={tab}
-              onClick={() => setActive(tab)}
+              key={tab.key}
+              onClick={() => setActive(tab.key)}
               style={{
-                padding: "10px 24px",
+                padding: "10px 22px",
                 fontSize: 12,
                 fontWeight: 600,
-                letterSpacing: "0.1em",
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 fontFamily: "var(--font-inter), sans-serif",
                 borderRadius: 4,
                 cursor: "pointer",
                 transition: "all 0.2s",
-                background: active === tab ? "#D4A520" : "transparent",
-                color: active === tab ? "#0B1D3A" : "rgba(201,168,76,0.7)",
-                border: active === tab ? "1px solid #D4A520" : "1px solid rgba(201,168,76,0.3)",
+                background: active === tab.key ? "#D4A520" : "transparent",
+                color: active === tab.key ? "#0B1D3A" : "rgba(201,168,76,0.7)",
+                border: active === tab.key ? "1px solid #D4A520" : "1px solid rgba(201,168,76,0.3)",
               }}
             >
-              {tab}
+              {tab.label}
             </button>
           ))}
         </motion.div>
 
-        {/* Schedule list */}
         <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.3 }}
-            style={{ display: "flex", flexDirection: "column", gap: 10 }}
-          >
-            {schedule[active].map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.35, delay: i * 0.06 }}
-                  style={{
-                    background: "linear-gradient(90deg, #152B52, #0F2347)",
-                    border: "1px solid rgba(201,168,76,0.15)",
-                    borderRadius: 12,
-                    padding: "18px 20px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 16,
-                  }}
-                >
-                  <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: "50%", background: "rgba(201,168,76,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Icon color="#D4A520" size={15} />
-                  </div>
-                  <div style={{ flexShrink: 0, width: 80 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#D4A520", fontSize: 12, fontWeight: 600, fontFamily: "var(--font-inter), sans-serif" }}>
-                      <Clock size={11} color="#D4A520" />
-                      {item.time}
+          {active === "calendar" ? (
+            <motion.div
+              key="calendar"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.3 }}
+            >
+              <p style={{ color: "#D4A520", fontSize: 13, textAlign: "center", letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif", marginBottom: 20 }}>
+                {t.calendarTitle}
+              </p>
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--font-inter), sans-serif" }}>
+                  <thead>
+                    <tr>
+                      {t.calendarCols.map((col) => (
+                        <th key={col} style={{ padding: "10px 14px", textAlign: "left", color: "#D4A520", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.15em", borderBottom: "1px solid rgba(201,168,76,0.2)", whiteSpace: "nowrap" }}>
+                          {col}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {calendar2026.map((row, i) => (
+                      <motion.tr
+                        key={row.month.en}
+                        initial={{ opacity: 0, x: -12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: i * 0.04 }}
+                        style={{ background: i % 2 === 0 ? "rgba(21,43,82,0.6)" : "rgba(15,35,71,0.4)" }}
+                      >
+                        <td style={{ padding: "11px 14px", color: "#f5f0e8", fontWeight: 600, fontSize: 13, borderBottom: "1px solid rgba(201,168,76,0.06)" }}>
+                          {row.month[lang]}
+                        </td>
+                        {[row.puranMashee, row.sangrand, row.masia, row.dasvee].map((val, j) => (
+                          <td key={j} style={{ padding: "11px 14px", color: "rgba(232,213,163,0.7)", fontSize: 13, borderBottom: "1px solid rgba(201,168,76,0.06)", whiteSpace: "nowrap" }}>
+                            {val}
+                          </td>
+                        ))}
+                      </motion.tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.3 }}
+              style={{ display: "flex", flexDirection: "column", gap: 10 }}
+            >
+              {scheduleData[active as Exclude<Tab, "calendar">].map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.name.en}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.35, delay: i * 0.06 }}
+                    style={{
+                      background: "linear-gradient(90deg, #152B52, #0F2347)",
+                      border: "1px solid rgba(201,168,76,0.15)",
+                      borderRadius: 12,
+                      padding: "18px 20px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 16,
+                    }}
+                  >
+                    <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: "50%", background: "rgba(201,168,76,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <Icon color="#D4A520" size={15} />
                     </div>
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ color: "#f5f0e8", fontWeight: 600, fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 15, marginBottom: 2 }}>
-                      {item.name}
+                    <div style={{ flexShrink: 0, minWidth: 110 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#D4A520", fontSize: 12, fontWeight: 600, fontFamily: "var(--font-inter), sans-serif" }}>
+                        <Clock size={11} color="#D4A520" />
+                        {item.time}
+                      </div>
                     </div>
-                    <div style={{ color: "rgba(232,213,163,0.45)", fontSize: 13, fontFamily: "var(--font-inter), sans-serif", wordBreak: "break-word" }}>
-                      {item.description}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ color: "#f5f0e8", fontWeight: 600, fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 15, marginBottom: 2 }}>
+                        {item.name[lang]}
+                      </div>
+                      <div style={{ color: "rgba(232,213,163,0.45)", fontSize: 13, fontFamily: "var(--font-inter), sans-serif", wordBreak: "break-word" }}>
+                        {item.description[lang]}
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          )}
         </AnimatePresence>
 
         <motion.p
@@ -157,7 +230,7 @@ export default function Schedule() {
           transition={{ delay: 0.9 }}
           style={{ textAlign: "center", color: "rgba(232,213,163,0.35)", fontSize: 13, marginTop: 28, fontFamily: "var(--font-inter), sans-serif" }}
         >
-          All services are free and open to everyone. Langar (community meal) is served daily.
+          {t.footer}
         </motion.p>
       </div>
     </section>

@@ -2,6 +2,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import T from "@/lib/translations";
 
 const events = [
   {
@@ -55,6 +57,8 @@ export default function Events() {
   const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { lang } = useLanguage();
+  const tEvents = T[lang].events;
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640);
@@ -126,7 +130,7 @@ export default function Events() {
             textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif",
             marginBottom: 20,
           }}>
-            Upcoming Events
+            {tEvents.label}
           </p>
           <div style={{ width: 32, height: 1, background: "rgba(201,168,76,0.3)", marginBottom: 20 }} />
 

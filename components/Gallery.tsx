@@ -3,6 +3,8 @@ import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
+import T from "@/lib/translations";
 
 const tiles = [
   { id: 1, label: "Darbar Sahib", image: "/gallery/gallery-1.jpg", gradient: "linear-gradient(135deg, rgba(120,80,20,0.8), rgba(100,70,10,0.5))", span: { gridColumn: "span 2", gridRow: "span 2" }, spanClass: "gallery-span2col gallery-span2row" },
@@ -21,6 +23,8 @@ export default function Gallery() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [selected, setSelected] = useState<typeof tiles[0] | null>(null);
+  const { lang } = useLanguage();
+  const t = T[lang].gallery;
 
   return (
     <section
@@ -38,50 +42,47 @@ export default function Gallery() {
           style={{ textAlign: "center", marginBottom: 56 }}
         >
           <p style={{ color: "#D4A520", fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif", marginBottom: 12 }}>
-            Our Community
+            {t.label}
           </p>
           <h2 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: "clamp(2rem, 4vw, 3rem)", color: "#f5f0e8", marginBottom: 20, lineHeight: 1.2 }}>
-            Gallery
+            {t.heading}
           </h2>
           <div style={{ width: 64, height: 1, background: "linear-gradient(90deg, #D4A520, #FF8C00)", margin: "0 auto 12px" }} />
           <p style={{ color: "rgba(232,213,163,0.35)", fontSize: 13, fontFamily: "var(--font-inter), sans-serif" }}>
-            Photos will be added as the site goes live
+            {t.placeholder}
           </p>
         </motion.div>
 
         <div className="gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridAutoRows: 160, gap: 14, marginBottom: 40 }}>
-          {tiles.map((tile, i) => {
-            return (
-              <motion.div
-                key={tile.id}
-                initial={{ opacity: 0, scale: 0.93 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.07 }}
-                onClick={() => setSelected(tile)}
-                className={tile.spanClass}
-                style={{
-                  background: tile.gradient,
-                  backgroundImage: `url(${tile.image}), ${tile.gradient}`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  border: "1px solid rgba(255,255,255,0.05)",
-                  borderRadius: 12,
-                  overflow: "hidden",
-                  cursor: "pointer",
-                  position: "relative",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 10,
-                  ...tile.span,
-                }}
-              >
-              </motion.div>
-            );
-          })}
+          {tiles.map((tile, i) => (
+            <motion.div
+              key={tile.id}
+              initial={{ opacity: 0, scale: 0.93 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: i * 0.07 }}
+              onClick={() => setSelected(tile)}
+              className={tile.spanClass}
+              style={{
+                background: tile.gradient,
+                backgroundImage: `url(${tile.image}), ${tile.gradient}`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                border: "1px solid rgba(255,255,255,0.05)",
+                borderRadius: 12,
+                overflow: "hidden",
+                cursor: "pointer",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+                ...tile.span,
+              }}
+            />
+          ))}
         </div>
-        {/* View Full Gallery button */}
+
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -90,22 +91,9 @@ export default function Gallery() {
         >
           <Link
             href="/gallery"
-            style={{
-              display: "inline-block",
-              border: "1px solid rgba(201,168,76,0.4)",
-              color: "#D4A520",
-              padding: "12px 32px",
-              borderRadius: 6,
-              fontSize: 12,
-              fontWeight: 600,
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              fontFamily: "var(--font-inter), sans-serif",
-              textDecoration: "none",
-              transition: "background 0.2s, border-color 0.2s",
-            }}
+            style={{ display: "inline-block", border: "1px solid rgba(201,168,76,0.4)", color: "#D4A520", padding: "12px 32px", borderRadius: 6, fontSize: 12, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif", textDecoration: "none", transition: "background 0.2s, border-color 0.2s" }}
           >
-            View Full Gallery →
+            {t.viewAll}
           </Link>
         </motion.div>
       </div>
@@ -124,23 +112,10 @@ export default function Gallery() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.85, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              style={{
-                background: selected.gradient,
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: 16,
-                width: "100%",
-                maxWidth: 640,
-                aspectRatio: "16/9",
-                overflow: "hidden",
-                position: "relative",
-              }}
+              style={{ background: selected.gradient, border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, width: "100%", maxWidth: 640, aspectRatio: "16/9", overflow: "hidden", position: "relative" }}
               onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={selected.image}
-                alt={selected.label}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
+              <img src={selected.image} alt={selected.label} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               <button onClick={() => setSelected(null)} style={{ position: "absolute", top: 14, right: 14, background: "rgba(0,0,0,0.45)", border: "none", borderRadius: "50%", width: 32, height: 32, cursor: "pointer", color: "rgba(232,213,163,0.8)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <X size={16} />
               </button>
