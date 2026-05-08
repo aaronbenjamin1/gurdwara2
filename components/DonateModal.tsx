@@ -294,7 +294,7 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
             >
               <CheckCircle size={52} color="#D4A520" style={{ margin: "0 auto 20px" }} />
               <h3 style={{ fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 24, color: "#f5f0e8", marginBottom: 10 }}>
-                Waheguru Ji Ka Khalsa!
+                Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh!
               </h3>
               <p style={{ color: "rgba(232,213,163,0.55)", fontFamily: "var(--font-inter), sans-serif", fontSize: 14, lineHeight: 1.7 }}>
                 Your donation of <strong style={{ color: "#D4A520" }}>${finalAmount}</strong> has been received.<br />
