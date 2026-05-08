@@ -18,12 +18,42 @@ function ApplePayLogo() {
   );
 }
 
-function GooglePayLogo() {
+function GooglePayButton({ onClick, disabled }: { onClick: () => void; disabled: boolean }) {
   return (
-    <svg viewBox="0 0 41 17" width="41" height="17" xmlns="http://www.w3.org/2000/svg">
-      <path d="M19.526 2.635v4.083h2.518c.6 0 1.096-.202 1.488-.605.403-.402.605-.882.605-1.437 0-.544-.202-1.018-.605-1.422-.392-.413-.888-.62-1.488-.62h-2.518zm0 5.52v4.736h-1.504V1.198h3.99c1.013 0 1.873.337 2.582 1.012.72.675 1.08 1.497 1.08 2.466 0 .991-.36 1.819-1.08 2.482-.697.665-1.559.996-2.583.996h-2.485zm7.668 2.287c0 .392.166.718.499.98.332.26.722.39 1.168.39.633 0 1.196-.234 1.692-.701.497-.469.744-1.019.744-1.65-.469-.37-1.123-.555-1.962-.555-.61 0-1.12.148-1.527.444-.408.297-.614.657-.614 1.092m1.failing 1.857c-.937 0-1.683-.252-2.237-.757-.554-.505-.831-1.144-.831-1.917 0-.858.321-1.537.964-2.038.642-.5 1.454-.751 2.436-.751.864 0 1.573.168 2.126.503v-.335c0-.505-.195-.932-.586-1.28-.39-.35-.876-.524-1.458-.524-.42 0-.795.099-1.127.298-.331.2-.558.47-.681.811l-1.384-.581c.191-.558.566-1.043 1.124-1.455.558-.412 1.24-.618 2.049-.618 1.008 0 1.818.3 2.43.9.612.6.918 1.426.918 2.476v5.02h-1.43v-1.065h-.062c-.54.86-1.348 1.29-2.25 1.29zm5.604-.16V6.075h1.432v1.018h.062c.353-.77 1.1-1.157 2.243-1.157.937 0 1.664.318 2.181.955.516.637.775 1.49.775 2.558v4.24h-1.432v-4.09c0-.727-.179-1.278-.538-1.653-.359-.376-.855-.564-1.487-.564-.654 0-1.178.217-1.573.65-.395.435-.593 1.015-.593 1.74v3.917h-1.07z" fill="white"/>
-      <path d="M9.434 9.131v-1.57h5.279c.052.272.078.594.078.944 0 1.174-.322 2.626-1.359 3.663-.1.1-.204.195-.312.286-1.078.906-2.46 1.39-4.317 1.39C4.019 13.844.5 10.42.5 6.013.5 1.607 4.019-1.817 8.803-1.817c1.921 0 3.617.711 4.875 1.862l-1.37 1.37C11.408.557 10.214.018 8.803.018c-3.47 0-6.183 2.794-6.183 5.995 0 3.2 2.713 5.995 6.183 5.995 1.565 0 2.88-.504 3.832-1.428.714-.686 1.046-1.643 1.162-2.449H9.434z" fill="white"/>
-    </svg>
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label="Donate with Google Pay"
+      style={{
+        flex: 1,
+        height: 50,
+        background: "#fff",
+        border: "1px solid #dadce0",
+        borderRadius: 8,
+        cursor: disabled ? "not-allowed" : "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        padding: "0 16px",
+        opacity: disabled ? 0.5 : 1,
+        transition: "opacity 0.15s, box-shadow 0.15s",
+      }}
+      onMouseEnter={e => { if (!disabled) e.currentTarget.style.boxShadow = "0 1px 4px rgba(0,0,0,0.2)"; }}
+      onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; }}
+    >
+      {/* Google colored G */}
+      <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908C16.597 14.272 17.64 11.969 17.64 9.2z"/>
+        <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.861-3.048.861-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+        <path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.347 2.827.957 4.042l3.007-2.332z"/>
+        <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/>
+      </svg>
+      <span style={{ fontFamily: "Arial, sans-serif", fontSize: 15, fontWeight: 500, color: "#3c4043", letterSpacing: 0 }}>
+        Pay
+      </span>
+    </button>
   );
 }
 
@@ -353,28 +383,10 @@ export default function DonateModal({ onClose }: { onClose: () => void }) {
                       </>
                     )}
                     {googlePayAvailable && (
-                      <button
-                        type="button"
+                      <GooglePayButton
                         onClick={handleGooglePay}
                         disabled={finalAmount <= 0 || status === "loading"}
-                        style={{
-                          flex: 1,
-                          height: 50,
-                          background: "#000",
-                          border: "1px solid rgba(255,255,255,0.15)",
-                          borderRadius: 8,
-                          cursor: finalAmount <= 0 || status === "loading" ? "not-allowed" : "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          padding: "0 16px",
-                          opacity: finalAmount <= 0 ? 0.5 : 1,
-                          transition: "opacity 0.15s",
-                        }}
-                        aria-label="Donate with Google Pay"
-                      >
-                        <GooglePayLogo />
-                      </button>
+                      />
                     )}
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
