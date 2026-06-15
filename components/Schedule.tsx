@@ -55,7 +55,7 @@ const dailySections: DailySection[] = [
   },
 ];
 
-const scheduleData: Record<Exclude<Tab, "calendar" | "daily">, Item[]> = {
+const scheduleData: Record<Exclude<Tab, "calendar" | "daily" | "sunday">, Item[]> & { sunday: Item[] } = {
   sunday: [
     { time: "6:00 – 7:00 AM", name: { en: "Kirtan Asa Ki Vaar", pa: "ਕੀਰਤਨ ਆਸਾ ਕੀ ਵਾਰ" }, description: { en: "Morning musical recitation of Asa Ki Vaar by Guru Nanak Dev Ji", pa: "ਗੁਰੂ ਨਾਨਕ ਦੇਵ ਜੀ ਦੀ ਆਸਾ ਕੀ ਵਾਰ ਦਾ ਕੀਰਤਨ" }, icon: Star },
     { time: "7:00 – 9:00 AM", name: { en: "Sukhmani Sahib By Sangat", pa: "ਸੁਖਮਨੀ ਸਾਹਿਬ — ਸੰਗਤ ਦੁਆਰਾ" }, description: { en: "Communal recitation of Sukhmani Sahib — the prayer of peace", pa: "ਸੰਗਤ ਵੱਲੋਂ ਸੁਖਮਨੀ ਸਾਹਿਬ ਦਾ ਪਾਠ" }, icon: Sun },
@@ -259,6 +259,101 @@ export default function Schedule() {
                 </table>
               </div>
             </motion.div>
+          ) : active === "sunday" ? (
+            <motion.div
+              key="sunday"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.3 }}
+              style={{ display: "flex", flexDirection: "column", gap: 10 }}
+            >
+              {scheduleData.sunday.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.name.en}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.35, delay: i * 0.06 }}
+                    style={{
+                      background: "linear-gradient(90deg, #152B52, #0F2347)",
+                      border: "1px solid rgba(201,168,76,0.15)",
+                      borderRadius: 12,
+                      padding: "18px 20px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 16,
+                    }}
+                  >
+                    <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: "50%", background: "rgba(201,168,76,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <Icon color="#D4A520" size={15} />
+                    </div>
+                    <div style={{ flexShrink: 0, minWidth: 110 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#D4A520", fontSize: 12, fontWeight: 600, fontFamily: "var(--font-inter), sans-serif" }}>
+                        <Clock size={11} color="#D4A520" />
+                        {item.time}
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ color: "#f5f0e8", fontWeight: 600, fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 15, marginBottom: 2 }}>
+                        {item.name[lang]}
+                      </div>
+                      <div style={{ color: "rgba(232,213,163,0.45)", fontSize: 13, fontFamily: "var(--font-inter), sans-serif", wordBreak: "break-word" }}>
+                        {item.description[lang]}
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+
+              {/* Evening sections */}
+              <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 28 }}>
+                {dailySections.slice(1).map((section, si) => {
+                  const SIcon = section.icon;
+                  return (
+                    <div key={section.heading.en}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                        <SIcon color="#D4A520" size={14} />
+                        <span style={{ color: "#D4A520", fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: "var(--font-inter), sans-serif" }}>
+                          {section.heading[lang]}
+                        </span>
+                        <div style={{ flex: 1, height: 1, background: "rgba(201,168,76,0.15)" }} />
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                        {section.items.map((item, i) => (
+                          <motion.div
+                            key={item.name.en}
+                            initial={{ opacity: 0, x: -12 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.3, delay: (si * 0.1) + i * 0.05 }}
+                            style={{
+                              background: "linear-gradient(90deg, #152B52, #0F2347)",
+                              border: "1px solid rgba(201,168,76,0.12)",
+                              borderRadius: 10,
+                              padding: "14px 18px",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 16,
+                            }}
+                          >
+                            <div style={{ flexShrink: 0, minWidth: 120 }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#D4A520", fontSize: 12, fontWeight: 600, fontFamily: "var(--font-inter), sans-serif" }}>
+                                <Clock size={11} color="#D4A520" />
+                                {item.time}
+                              </div>
+                            </div>
+                            <div style={{ color: "#f5f0e8", fontWeight: 600, fontFamily: "var(--font-playfair), Georgia, serif", fontSize: 15 }}>
+                              {item.name[lang]}
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </motion.div>
           ) : (
             <motion.div
               key={active}
@@ -268,7 +363,7 @@ export default function Schedule() {
               transition={{ duration: 0.3 }}
               style={{ display: "flex", flexDirection: "column", gap: 10 }}
             >
-              {scheduleData[active as Exclude<Tab, "calendar" | "daily">].map((item, i) => {
+              {scheduleData[active as Exclude<Tab, "calendar" | "daily" | "sunday">].map((item, i) => {
                 const Icon = item.icon;
                 return (
                   <motion.div
