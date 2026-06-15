@@ -7,28 +7,6 @@ import T from "@/lib/translations";
 
 const events = [
   {
-    month: "MAY", day: "13",
-    title: "Baisakhi Celebration",
-    description: "Annual Sikh New Year celebration with kirtan, langar, and community festivities. Nagar Kirtan procession begins at 9 AM.",
-    time: "9:00 AM – 5:00 PM",
-    location: "Gurdwara Nanaksar Fresno",
-    tag: "Annual Festival",
-    tagColor: "rgba(255,153,51,0.15)",
-    tagText: "#FF8C00",
-    accentRgb: "255,140,0",
-  },
-  {
-    month: "JUN", day: "07",
-    title: "Gurpurab — Guru Arjan Dev Ji",
-    description: "Shaheedi Gurpurab of the 5th Sikh Guru. Akhand Path, keertan, and ardas throughout the day.",
-    time: "4:00 AM – 8:00 PM",
-    location: "Gurdwara Nanaksar Fresno",
-    tag: "Gurpurab",
-    tagColor: "rgba(201,168,76,0.15)",
-    tagText: "#D4A520",
-    accentRgb: "212,165,32",
-  },
-  {
     month: "JUL", day: "19",
     title: "Youth Kirtan Samagam",
     description: "A celebration of Sikh youth talent featuring junior ragis and young gatka performers from across the Central Valley.",
